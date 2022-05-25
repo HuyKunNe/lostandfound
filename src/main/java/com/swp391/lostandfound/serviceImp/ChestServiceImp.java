@@ -2,6 +2,8 @@ package com.swp391.lostandfound.serviceImp;
 
 import java.util.List;
 
+import com.swp391.lostandfound.DTO.ChestAddDTO;
+import com.swp391.lostandfound.DTO.ChestUpdateDTO;
 import com.swp391.lostandfound.entity.Chest;
 import com.swp391.lostandfound.repository.ChestRepository;
 import com.swp391.lostandfound.service.ChestService;
@@ -19,31 +21,47 @@ public class ChestServiceImp implements ChestService {
 
     @Override
     public List<Chest> getAllChests() {
-        // TODO Auto-generated method stub
-        return null;
+        return chestRepository.findChestByStatus(0);
     }
 
     @Override
-    public Chest addChest(Chest chest) {
-        // TODO Auto-generated method stub
-        return null;
+    public Chest addChest(ChestAddDTO chestAddDTO) {
+        Chest chest = new Chest();
+        chest.setDescription(chestAddDTO.getDescription());
+        chest.setName(chestAddDTO.getName());
+        chest.setLocation(chestAddDTO.getLocation());
+        chest.setStatus(0);
+        return chestRepository.save(chest);
     }
 
     @Override
-    public Chest updateChest(Chest chest) {
-        // TODO Auto-generated method stub
-        return null;
+    public boolean updateChest(int id, ChestUpdateDTO chestUpdateDTO) {
+        if (chestRepository.existsById(id)) {
+            Chest chest = chestRepository.findById(id).get();
+            chest.setName(chestUpdateDTO.getName());
+            chest.setDescription(chestUpdateDTO.getDescription());
+            chest.setLocation(chestUpdateDTO.getLocation());
+            chest.setStatus(chestUpdateDTO.getStatus());
+            chestRepository.save(chest);
+            return true;
+        } else
+            return false;
     }
 
     @Override
     public Chest findChestById(int id) {
-        // TODO Auto-generated method stub
+        if (chestRepository.existsById(id)) {
+            return chestRepository.findById(id).get();
+        }
         return null;
     }
 
     @Override
     public boolean deleteChestById(int id) {
-        // TODO Auto-generated method stub
+        if (chestRepository.existsById(id)) {
+            chestRepository.setFixedStatusFor(1, id);
+            return true;
+        }
         return false;
     }
 
