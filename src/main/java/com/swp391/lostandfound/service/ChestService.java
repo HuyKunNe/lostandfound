@@ -12,7 +12,7 @@ public interface ChestService {
 
     Chest addChest(ChestAddDTO chestAddDTO);
 
-    boolean updateChest(int id, ChestUpdateDTO chestUpdateDTO);
+    Chest updateChest(int id, ChestUpdateDTO chestUpdateDTO);
 
     Chest findChestById(int id);
 
