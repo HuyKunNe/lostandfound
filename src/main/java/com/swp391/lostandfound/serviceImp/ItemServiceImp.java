@@ -2,8 +2,12 @@ package com.swp391.lostandfound.serviceImp;
 
 import java.util.List;
 
+import com.swp391.lostandfound.DTO.ItemAddDTO;
+import com.swp391.lostandfound.DTO.ItemUpdateDTO;
 import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.repository.ItemRepository;
+import com.swp391.lostandfound.repository.PostRepository;
+import com.swp391.lostandfound.repository.TypeRepository;
 import com.swp391.lostandfound.service.ItemService;
 
 import org.springframework.stereotype.Service;
@@ -12,39 +16,81 @@ import org.springframework.stereotype.Service;
 public class ItemServiceImp implements ItemService {
 
     private ItemRepository itemRepository;
+    private PostRepository postRepository;
+    private TypeRepository typeRepository;
 
-    public ItemServiceImp(ItemRepository itemRepository) {
+    public ItemServiceImp(ItemRepository itemRepository, PostRepository postRepository, TypeRepository typeRepository) {
         this.itemRepository = itemRepository;
+        this.postRepository = postRepository;
+        this.typeRepository = typeRepository;
     }
 
     @Override
     public List<Item> getAllItems() {
-        // TODO Auto-generated method stub
-        return null;
+        return itemRepository.findItemByStatus(0);
     }
 
     @Override
-    public Item addItem(Item item) {
-        // TODO Auto-generated method stub
-        return null;
+    public Item addItem(ItemAddDTO itemAddDTO) {
+        Item item = new Item();
+        item.setName(itemAddDTO.getName());
+        item.setDescription(itemAddDTO.getDescription());
+        item.setLocation(itemAddDTO.getLocation());
+        item.setReceivedDate(itemAddDTO.getReceivedDate());
+        item.setReturnedDate(itemAddDTO.getReturnedDate());
+        item.setStatus(0);
+        if (postRepository.existsById(itemAddDTO.getPostId())) {
+            item.setPost(postRepository.findById(itemAddDTO.getPostId()).get());
+            if (typeRepository.existsById(itemAddDTO.getTypeId())) {
+                item.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
+                return itemRepository.save(item);
+            } else
+                return null;
+        } else
+            return null;
+
     }
 
     @Override
-    public Item updateItem(Item item) {
-        // TODO Auto-generated method stub
-        return null;
+    public Item updateItem(int id, ItemUpdateDTO itemUpdateDTO) {
+        if (itemRepository.existsById(id)) {
+            Item item = itemRepository.findById(id).get();
+            item.setName(itemUpdateDTO.getName());
+            item.setDescription(itemUpdateDTO.getDescription());
+            item.setLocation(itemUpdateDTO.getLocation());
+            item.setStatus(itemUpdateDTO.getStatus());
+            item.setReceivedDate(itemUpdateDTO.getReceivedDate());
+            item.setReturnedDate(itemUpdateDTO.getReturnedDate());
+            if (postRepository.existsById(itemUpdateDTO.getPostId())) {
+                item.setPost(postRepository.findById(itemUpdateDTO.getPostId()).get());
+                if (typeRepository.existsById(itemUpdateDTO.getTypeId())) {
+                    item.setType(typeRepository.findById(itemUpdateDTO.getTypeId()).get());
+                    return itemRepository.save(item);
+                } else
+                    return null;
+            } else
+                return null;
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Item findItemById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+        if (itemRepository.existsById(id)) {
+            return itemRepository.findById(id).get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean deleteItemById(int id) {
-        // TODO Auto-generated method stub
-        return false;
+        if (itemRepository.existsById(id)) {
+            return itemRepository.updateStatusById(1, id);
+        } else {
+            return false;
+        }
     }
 
 }

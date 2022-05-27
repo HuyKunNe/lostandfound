@@ -4,17 +4,16 @@ import com.swp391.lostandfound.DTO.MediaAddDTO;
 import com.swp391.lostandfound.DTO.MediaUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ListMedias;
 import com.swp391.lostandfound.dataFormat.MediaData;
-import com.swp391.lostandfound.entity.Media;
 import com.swp391.lostandfound.service.MediaService;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class MediaController {
 
     private MediaService mediaService;
@@ -23,21 +22,21 @@ public class MediaController {
         this.mediaService = mediaService;
     }
 
-    @GetMapping("/media")
+    @GetMapping("/medias")
     ListMedias getAllMedias() {
         ListMedias media = new ListMedias();
         media.setData(mediaService.getAllMedias());
         if (media.getData().isEmpty()) {
-            media.setMessage("Get all medias enable successfully");
+            media.setMessage("List is empty");
             media.setStatus("Success");
         } else {
-            media.setMessage("List is empty");
+            media.setMessage("Get all medias enable successfully");
             media.setStatus("Success");
         }
         return media;
     }
 
-    @GetMapping("/media/{id}")
+    @GetMapping("/medias/{id}")
     MediaData findMediaById(@PathVariable int id) {
         MediaData mediaData = new MediaData();
         mediaData.setMedia(mediaService.findMediaById(id));
@@ -51,7 +50,7 @@ public class MediaController {
         return mediaData;
     }
 
-    @PostMapping("/media")
+    @PostMapping("/medias")
     MediaData addMedia(MediaAddDTO mediaAddDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.addMedia(mediaAddDTO));
@@ -65,7 +64,7 @@ public class MediaController {
         return media;
     }
 
-    @PutMapping("/media/edit/{id}")
+    @PutMapping("/medias/edit/{id}")
     MediaData updateMedia(@PathVariable int id, MediaUpdateDTO mediaUpdateDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.updateMedia(id, mediaUpdateDTO));
@@ -79,7 +78,7 @@ public class MediaController {
         return media;
     }
 
-    @DeleteMapping("/media/{id}")
+    @DeleteMapping("/medias/{id}")
     MediaData deleteMediaById(@PathVariable int id) {
         MediaData mediaData = new MediaData();
         if (mediaService.deleteMediaById(id)) {

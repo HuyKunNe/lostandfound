@@ -15,5 +15,7 @@ public interface MediaService {
 
     Media findMediaById(int id);
 
+    List<Media> findMediaByPostId(int id);
+
     boolean deleteMediaById(int id);
 }

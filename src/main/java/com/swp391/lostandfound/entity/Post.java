@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -36,11 +38,13 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
     @ToString.Include
+    @JsonIgnore
     private Collection<Media> medias;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
     @ToString.Include
+    @JsonIgnore
     private Collection<Item> items;
 
     @ManyToOne(fetch = FetchType.LAZY)

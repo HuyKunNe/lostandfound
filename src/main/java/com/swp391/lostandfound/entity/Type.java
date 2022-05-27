@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -28,5 +30,6 @@ public class Type {
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
     @ToString.Include
+    @JsonIgnore
     private Collection<Item> items;
 }

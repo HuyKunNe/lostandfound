@@ -77,4 +77,13 @@ public class MediaServiceImp implements MediaService {
         return false;
     }
 
+    @Override
+    public List<Media> findMediaByPostId(int id) {
+        if (postRepository.existsById(id)) {
+            return mediaRepository.findMediaByPost(postRepository.findById(id).get());
+        } else {
+            return null;
+        }
+    }
+
 }

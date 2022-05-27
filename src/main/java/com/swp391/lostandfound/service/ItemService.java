@@ -2,14 +2,16 @@ package com.swp391.lostandfound.service;
 
 import java.util.List;
 
+import com.swp391.lostandfound.DTO.ItemAddDTO;
+import com.swp391.lostandfound.DTO.ItemUpdateDTO;
 import com.swp391.lostandfound.entity.Item;
 
 public interface ItemService {
     List<Item> getAllItems();
 
-    Item addItem(Item item);
+    Item addItem(ItemAddDTO itemAddDTO);
 
-    Item updateItem(Item item);
+    Item updateItem(int id, ItemUpdateDTO itemUpdateDTO);
 
     Item findItemById(int id);
 

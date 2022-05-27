@@ -69,9 +69,15 @@ public class UserController {
     UserData createUser(UserAddDTO userAddDTO) {
         UserData userData = new UserData();
         User user = userService.addUser(userAddDTO);
-        userData.setMessage("Create User Succcessfully");
-        userData.setUser(user);
-        userData.setStatus("Success");
+        if (user != null) {
+            userData.setMessage("Create User Succcessfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("Create User Failed");
+            userData.setStatus("Fail");
+        }
+
         return userData;
     }
 
@@ -88,4 +94,50 @@ public class UserController {
 
         return userData;
     }
+
+    @GetMapping("/user/findByPhone")
+    UserData findUserByPhone(String phoneNumber) {
+        UserData userData = new UserData();
+        User user = userService.findUserByPhone(phoneNumber);
+        if (user != null) {
+            userData.setMessage("Find User successfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("User is not exist");
+            userData.setStatus("Fail");
+        }
+        return userData;
+    }
+
+    @GetMapping("/user/findByEmail")
+    UserData findUserByEmail(String email) {
+        UserData userData = new UserData();
+        User user = userService.findUserByEmail(email);
+        if (user != null) {
+            userData.setMessage("Find User successfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("User is not exist");
+            userData.setStatus("Fail");
+        }
+        return userData;
+    }
+
+    @GetMapping("/user/findByStudentCode")
+    UserData findUserByStudentCode(String studentCode) {
+        UserData userData = new UserData();
+        User user = userService.findUserByStudentCode(studentCode);
+        if (user != null) {
+            userData.setMessage("Find User successfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("User is not exist");
+            userData.setStatus("Fail");
+        }
+        return userData;
+    }
+
 }

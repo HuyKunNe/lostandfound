@@ -40,12 +40,14 @@ public class ChestItemServiceImp implements ChestItemService {
         chestItem.setStatus(0);
         if (chestRepository.existsById(chestItemAddDTO.getChestId())) {
             chestItem.setChest(chestRepository.findById(chestItemAddDTO.getChestId()).get());
-        } else if (itemRepository.existsById(chestItemAddDTO.getItemId())) {
-            chestItem.setItem(itemRepository.findById(chestItemAddDTO.getItemId()).get());
-        } else {
+            if (itemRepository.existsById(chestItemAddDTO.getItemId())) {
+                chestItem.setItem(itemRepository.findById(chestItemAddDTO.getItemId()).get());
+                return chestItemRepository.save(chestItem);
+            } else {
+                return null;
+            }
+        } else
             return null;
-        }
-        return chestItemRepository.save(chestItem);
 
     }
 
@@ -59,12 +61,13 @@ public class ChestItemServiceImp implements ChestItemService {
             chestItem.setStatus(chestItemUpdateDTO.getStatus());
             if (chestRepository.existsById(chestItemUpdateDTO.getChestId())) {
                 chestItem.setChest(chestRepository.findById(chestItemUpdateDTO.getChestId()).get());
-            } else if (itemRepository.existsById(chestItemUpdateDTO.getItemId())) {
-                chestItem.setItem(itemRepository.findById(chestItemUpdateDTO.getItemId()).get());
-            } else {
+                if (itemRepository.existsById(chestItemUpdateDTO.getItemId())) {
+                    chestItem.setItem(itemRepository.findById(chestItemUpdateDTO.getItemId()).get());
+                    return chestItemRepository.save(chestItem);
+                } else
+                    return null;
+            } else
                 return null;
-            }
-            return chestItemRepository.save(chestItem);
         } else {
             return null;
         }

@@ -15,5 +15,11 @@ public interface UserService {
 
     User findUserById(int id);
 
+    User findUserByPhone(String phoneNumber);
+
+    User findUserByEmail(String email);
+
+    User findUserByStudentCode(String studentCode);
+
     boolean deleteUserById(int id);
 }

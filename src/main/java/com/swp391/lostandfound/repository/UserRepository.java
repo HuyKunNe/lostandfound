@@ -16,7 +16,20 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findUserByStatus(int status);
 
+    User findByEmailLike(String email);
+
+    User findByPhoneNumberLike(String phoneNumber);
+
+    User findByStudentCodeLike(String StudentCode);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    boolean existsByStudentCode(String StudentCode);
+
     @Modifying
     @Query("update User set Status = ?1 where Id = ?2")
     void updateStatusById(Integer status, Integer id);
+
 }

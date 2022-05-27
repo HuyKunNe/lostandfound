@@ -36,7 +36,13 @@ public class UserServiceImp implements UserService {
         user.setRole(2); // admin = 1, normal user = 2
         user.setStatus(0);
         user.setStudentCode(userAddDTO.getStudentCode());
-        return userRepository.save(user);
+        if (userRepository.existsByPhoneNumber(userAddDTO.getPhoneNumber())
+                || userRepository.existsByStudentCode(userAddDTO.getStudentCode())
+                || userRepository.existsByEmail(userAddDTO.getEmail())) {
+            return null;
+        } else {
+            return userRepository.save(user);
+        }
     }
 
     @Override
@@ -51,7 +57,13 @@ public class UserServiceImp implements UserService {
             user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
             user.setStatus(userUpdateDTO.getStatus());
             user.setStudentCode(userUpdateDTO.getStudentCode());
-            return userRepository.save(user);
+            if (userRepository.existsByPhoneNumber(userUpdateDTO.getPhoneNumber())
+                    || userRepository.existsByStudentCode(userUpdateDTO.getStudentCode())
+                    || userRepository.existsByEmail(userUpdateDTO.getEmail())) {
+                return null;
+            } else {
+                return userRepository.save(user);
+            }
         } else
             return null;
     }
@@ -72,6 +84,21 @@ public class UserServiceImp implements UserService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public User findUserByPhone(String phoneNumber) {
+        return userRepository.findByPhoneNumberLike(phoneNumber);
+    }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmailLike(email);
+    }
+
+    @Override
+    public User findUserByStudentCode(String studentCode) {
+        return userRepository.findByStudentCodeLike(studentCode);
     }
 
 }

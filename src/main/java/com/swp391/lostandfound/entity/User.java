@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -35,15 +37,18 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
     @ToString.Include
+    @JsonIgnore
     private Collection<UserActivity> userActivities;
 
     @OneToMany(mappedBy = "userCreate", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
     @ToString.Include
-    private Collection<Post> createUsers;
+    @JsonIgnore
+    private Collection<Post> createUser;
 
     @OneToMany(mappedBy = "userReturn", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
     @ToString.Include
-    private Collection<Post> returnUsers;
+    @JsonIgnore
+    private Collection<Post> returnUser;
 }
