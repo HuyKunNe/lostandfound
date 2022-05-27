@@ -16,8 +16,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findUserByStatus(int status);
 
-    
-    // @Modifying
-    // @Query("update users s set s.status =?1 where s.id = ?2")
-    // void updateStatusById(int status, int id);
+    @Modifying
+    @Query("update User set Status = ?1 where Id = ?2")
+    void updateStatusById(Integer status, Integer id);
 }

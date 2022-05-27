@@ -45,14 +45,14 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "createUserId", nullable = false)
+    @JoinColumn(name = "createUserId")
     @EqualsAndHashCode.Include
     @ToString.Include
     private User userCreate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "returnUserId", nullable = false)
+    @JoinColumn(name = "returnUserId")
     @EqualsAndHashCode.Include
     @ToString.Include
     private User userReturn;

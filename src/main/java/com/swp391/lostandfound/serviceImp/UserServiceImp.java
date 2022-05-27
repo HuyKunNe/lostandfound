@@ -66,8 +66,12 @@ public class UserServiceImp implements UserService {
 
     @Override
     public boolean deleteUserById(int id) {
-        // TODO Auto-generated method stub
-        return false;
+        if (userRepository.existsById(id)) {
+            userRepository.updateStatusById(1, id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

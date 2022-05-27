@@ -5,8 +5,8 @@ import com.swp391.lostandfound.entity.Post;
 import lombok.Data;
 
 @Data
-public class MediaAddDTO {
-
+public class MediaUpdateDTO {
     private String link;
+    private int status;
     private int postId;
 }

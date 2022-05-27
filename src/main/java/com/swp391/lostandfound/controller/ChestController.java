@@ -1,7 +1,5 @@
 package com.swp391.lostandfound.controller;
 
-import java.util.List;
-
 import com.swp391.lostandfound.DTO.ChestAddDTO;
 import com.swp391.lostandfound.DTO.ChestUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ChestData;
@@ -11,6 +9,7 @@ import com.swp391.lostandfound.service.ChestService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +36,7 @@ public class ChestController {
     }
 
     @GetMapping("/chest/{id}")
-    public ChestData getChestById(int id) {
+    public ChestData getChestById(@PathVariable int id) {
         ChestData result = new ChestData();
         result.setChest(chestService.findChestById(id));
         if (result.getChest() != null) {
@@ -60,7 +59,7 @@ public class ChestController {
     }
 
     @PutMapping("/chest/edit/{id}")
-    public ChestData editChestById(int id, ChestUpdateDTO dto) {
+    public ChestData editChestById(@PathVariable int id, ChestUpdateDTO dto) {
         ChestData result = new ChestData();
         Chest chest = chestService.updateChest(id, dto);
         if (chest != null) {
@@ -75,7 +74,7 @@ public class ChestController {
     }
 
     @DeleteMapping("/chest/{id}")
-    public ChestData deleteChestById(int id) {
+    public ChestData deleteChestById(@PathVariable int id) {
         ChestData result = new ChestData();
         if (chestService.deleteChestById(id)) {
             result.setMessage("Delete Chest successfully");

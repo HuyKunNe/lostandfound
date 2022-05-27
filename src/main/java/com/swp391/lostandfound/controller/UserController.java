@@ -1,16 +1,15 @@
 package com.swp391.lostandfound.controller;
 
-import java.util.List;
-
 import com.swp391.lostandfound.DTO.UserAddDTO;
 import com.swp391.lostandfound.DTO.UserUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ListUsersData;
 import com.swp391.lostandfound.dataFormat.UserData;
 import com.swp391.lostandfound.entity.User;
-import com.swp391.lostandfound.repository.UserRepository;
 import com.swp391.lostandfound.service.UserService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UserService userService;
-    private UserRepository userRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping("/user")
@@ -39,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    UserData getUserById(int id) {
+    UserData getUserById(@PathVariable int id) {
         UserData userData = new UserData();
         User user = userService.findUserById(id);
         if (user != null) {
@@ -54,7 +51,7 @@ public class UserController {
     }
 
     @PutMapping("/user/edit/{id}")
-    UserData updateUser(int id, UserUpdateDTO updateDTO) {
+    UserData updateUser(@PathVariable int id, UserUpdateDTO updateDTO) {
         UserData userData = new UserData();
         User user = userService.updateUser(id, updateDTO);
         if (user != null) {
@@ -75,6 +72,20 @@ public class UserController {
         userData.setMessage("Create User Succcessfully");
         userData.setUser(user);
         userData.setStatus("Success");
+        return userData;
+    }
+
+    @DeleteMapping("/user/{id}")
+    UserData deleteUserById(@PathVariable int id) {
+        UserData userData = new UserData();
+        if (userService.deleteUserById(id)) {
+            userData.setMessage("Delete User Succcessfully");
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("User is not exist");
+            userData.setStatus("Fail");
+        }
+
         return userData;
     }
 }
