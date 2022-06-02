@@ -23,7 +23,7 @@ public class MediaController {
     }
 
     @GetMapping("/medias")
-    ListMedias getAllMedias() {
+    public ListMedias getAllMedias() {
         ListMedias media = new ListMedias();
         media.setData(mediaService.getAllMedias());
         if (media.getData().isEmpty()) {
@@ -37,7 +37,7 @@ public class MediaController {
     }
 
     @GetMapping("/medias/{id}")
-    MediaData findMediaById(@PathVariable int id) {
+    public MediaData findMediaById(@PathVariable int id) {
         MediaData mediaData = new MediaData();
         mediaData.setMedia(mediaService.findMediaById(id));
         if (mediaData.getMedia() != null) {
@@ -51,7 +51,7 @@ public class MediaController {
     }
 
     @PostMapping("/medias")
-    MediaData addMedia(MediaAddDTO mediaAddDTO) {
+    public MediaData addMedia(MediaAddDTO mediaAddDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.addMedia(mediaAddDTO));
         if (media.getMedia() != null) {
@@ -65,7 +65,7 @@ public class MediaController {
     }
 
     @PutMapping("/medias/edit/{id}")
-    MediaData updateMedia(@PathVariable int id, MediaUpdateDTO mediaUpdateDTO) {
+    public MediaData updateMedia(@PathVariable int id, MediaUpdateDTO mediaUpdateDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.updateMedia(id, mediaUpdateDTO));
         if (media.getMedia() != null) {
@@ -79,7 +79,7 @@ public class MediaController {
     }
 
     @DeleteMapping("/medias/{id}")
-    MediaData deleteMediaById(@PathVariable int id) {
+    public MediaData deleteMediaById(@PathVariable int id) {
         MediaData mediaData = new MediaData();
         if (mediaService.deleteMediaById(id)) {
             mediaData.setMessage("Delete Media successfully");
