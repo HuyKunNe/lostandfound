@@ -4,7 +4,6 @@ import com.swp391.lostandfound.DTO.ChestAddDTO;
 import com.swp391.lostandfound.DTO.ChestUpdateDTO;
 import com.swp391.lostandfound.controller.ChestController;
 import com.swp391.lostandfound.dataFormat.ChestData;
-import com.swp391.lostandfound.dataFormat.ListChests;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(1)
-    void getAllChest1(){
+    void getAllChest1() {
         var listChests = chestController.getAllChests();
         assertThat(listChests.getMessage()).isEqualTo("List is empty");
         assertThat(listChests.getStatus()).isEqualTo("Success");
@@ -33,7 +32,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(2)
-    void addChest1(){
+    void addChest1() {
         var chestAddDTO = new ChestAddDTO();
         chestAddDTO.setName("Chest 1 Name");
         chestAddDTO.setDescription("Chest 1 Description");
@@ -48,7 +47,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(3)
-    void addChest2(){
+    void addChest2() {
         var chestAddDTO = new ChestAddDTO();
         chestAddDTO.setName("Chest 2 Name");
         chestAddDTO.setDescription("Chest 2 Description");
@@ -63,7 +62,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(4)
-    void getChestByID1(){
+    void getChestByID1() {
         var chestDataReturn = chestController.getChestById(chestData1.getChest().getId());
         assertThat(chestDataReturn.getChest().getId()).isEqualTo(chestData1.getChest().getId());
         assertThat(chestDataReturn.getChest().getName()).isEqualTo(chestData1.getChest().getName());
@@ -75,7 +74,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(5)
-    void getChestByID2(){
+    void getChestByID2() {
         var chestDataReturn = chestController.getChestById(chestData2.getChest().getId());
         assertThat(chestDataReturn.getChest().getId()).isEqualTo(chestData2.getChest().getId());
         assertThat(chestDataReturn.getChest().getName()).isEqualTo(chestData2.getChest().getName());
@@ -87,7 +86,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(6)
-    void getChestByID3(){
+    void getChestByID3() {
         var chestDataReturn = chestController.getChestById(10000);
         assertThat(chestDataReturn.getMessage()).isEqualTo("Chest is not found");
         assertThat(chestDataReturn.getStatus()).isEqualTo("Fail");
@@ -95,12 +94,12 @@ public class ChestControlerTest {
 
     @Test
     @Order(7)
-    void editChest1(){
+    void editChest1() {
         var chestUpdateDTO = new ChestUpdateDTO();
         chestUpdateDTO.setName("Chest 1 Name Edited");
         chestUpdateDTO.setDescription("Chest 1 Description Edited");
         chestUpdateDTO.setLocation("Chest 1 Location Edited");
-        chestData1 = chestController.editChestById(chestData1.getChest().getId(),chestUpdateDTO);
+        chestData1 = chestController.editChestById(chestData1.getChest().getId(), chestUpdateDTO);
         assertThat(chestData1.getChest().getName()).isEqualTo(chestUpdateDTO.getName());
         assertThat(chestData1.getChest().getDescription()).isEqualTo(chestUpdateDTO.getDescription());
         assertThat(chestData1.getChest().getLocation()).isEqualTo(chestUpdateDTO.getLocation());
@@ -110,12 +109,12 @@ public class ChestControlerTest {
 
     @Test
     @Order(8)
-    void editChest2(){
+    void editChest2() {
         var chestUpdateDTO = new ChestUpdateDTO();
         chestUpdateDTO.setName("Chest 1 Name Edited");
         chestUpdateDTO.setDescription("Chest 1 Description Edited");
         chestUpdateDTO.setLocation("Chest 1 Location Edited");
-        chestData2 = chestController.editChestById(chestData2.getChest().getId(),chestUpdateDTO);
+        chestData2 = chestController.editChestById(chestData2.getChest().getId(), chestUpdateDTO);
         assertThat(chestData2.getChest().getName()).isEqualTo(chestUpdateDTO.getName());
         assertThat(chestData2.getChest().getDescription()).isEqualTo(chestUpdateDTO.getDescription());
         assertThat(chestData2.getChest().getLocation()).isEqualTo(chestUpdateDTO.getLocation());
@@ -125,19 +124,19 @@ public class ChestControlerTest {
 
     @Test
     @Order(9)
-    void editChest3(){
+    void editChest3() {
         var chestUpdateDTO = new ChestUpdateDTO();
         chestUpdateDTO.setName("Chest 3 Name Edited");
         chestUpdateDTO.setDescription("Chest 3 Description Edited");
         chestUpdateDTO.setLocation("Chest 3 Location Edited");
-        var chestDataReturn = chestController.editChestById(10000,chestUpdateDTO);
+        var chestDataReturn = chestController.editChestById(10000, chestUpdateDTO);
         assertThat(chestDataReturn.getMessage()).isEqualTo("Chest is not exist");
         assertThat(chestDataReturn.getStatus()).isEqualTo("Fail");
     }
 
     @Test
     @Order(10)
-    void getAllChest2(){
+    void getAllChest2() {
         var listChests = chestController.getAllChests();
         assertThat(listChests.getMessage()).isEqualTo("Get all enable chests successfully");
         assertThat(listChests.getStatus()).isEqualTo("Success");
@@ -157,7 +156,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(11)
-    void deleteChest1(){
+    void deleteChest1() {
         chestData1 = chestController.deleteChestById(chestData1.getChest().getId());
         assertThat(chestData1.getMessage()).isEqualTo("Delete Chest successfully");
         assertThat(chestData1.getStatus()).isEqualTo("Success");
@@ -165,7 +164,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(12)
-    void deleteChest2(){
+    void deleteChest2() {
         chestData2 = chestController.deleteChestById(chestData2.getChest().getId());
         assertThat(chestData2.getMessage()).isEqualTo("Delete Chest successfully");
         assertThat(chestData2.getStatus()).isEqualTo("Success");
@@ -173,7 +172,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(13)
-    void deleteChest3(){
+    void deleteChest3() {
         var chestDataReturn = chestController.deleteChestById(10000);
         assertThat(chestDataReturn.getMessage()).isEqualTo("Chest is not exist");
         assertThat(chestDataReturn.getStatus()).isEqualTo("Fail");
@@ -181,7 +180,7 @@ public class ChestControlerTest {
 
     @Test
     @Order(14)
-    void getAllChest3(){
+    void getAllChest3() {
         var listChests = chestController.getAllChests();
         assertThat(listChests.getMessage()).isEqualTo("List is empty");
         assertThat(listChests.getStatus()).isEqualTo("Success");

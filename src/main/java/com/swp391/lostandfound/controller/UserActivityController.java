@@ -6,7 +6,6 @@ import com.swp391.lostandfound.dataFormat.ListUserActivity;
 import com.swp391.lostandfound.dataFormat.UserActivityData;
 import com.swp391.lostandfound.service.UserActivityService;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

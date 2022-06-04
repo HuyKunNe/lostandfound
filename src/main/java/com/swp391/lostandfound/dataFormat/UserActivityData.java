@@ -1,6 +1,5 @@
 package com.swp391.lostandfound.dataFormat;
 
-import com.swp391.lostandfound.entity.ChestItem;
 import com.swp391.lostandfound.entity.UserActivity;
 import lombok.Data;
 

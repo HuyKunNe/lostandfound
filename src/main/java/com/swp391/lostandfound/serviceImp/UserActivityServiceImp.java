@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.swp391.lostandfound.DTO.UserActivityAddDTO;
 import com.swp391.lostandfound.DTO.UserActivityUpdateDTO;
-import com.swp391.lostandfound.entity.ChestItem;
 import com.swp391.lostandfound.entity.UserActivity;
 import com.swp391.lostandfound.repository.PostRepository;
 import com.swp391.lostandfound.repository.UserActivityRepository;
@@ -20,7 +19,8 @@ public class UserActivityServiceImp implements UserActivityService {
     private UserRepository userRepository;
     private PostRepository postRepository;
 
-    public UserActivityServiceImp(UserActivityRepository userActivityRepository, UserRepository userRepository, PostRepository postRepository) {
+    public UserActivityServiceImp(UserActivityRepository userActivityRepository, UserRepository userRepository,
+            PostRepository postRepository) {
         this.userActivityRepository = userActivityRepository;
         this.userRepository = userRepository;
         this.postRepository = postRepository;
