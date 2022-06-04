@@ -23,7 +23,7 @@ public class ChestItemController {
     }
 
     @GetMapping("/chestItem")
-    ListChestItems getChestItems() {
+    public ListChestItems getChestItems() {
         ListChestItems list = new ListChestItems();
         list.setData(chestItemService.getAllChestItems());
         if (list.getData().isEmpty()) {
@@ -37,7 +37,7 @@ public class ChestItemController {
     }
 
     @GetMapping("/chestItem/{id}")
-    ChestItemData findChestItemById(@PathVariable int id) {
+    public ChestItemData findChestItemById(@PathVariable int id) {
         ChestItemData chestItemData = new ChestItemData();
         chestItemData.setChestItem(chestItemService.findChestItemById(id));
         if (chestItemData.getChestItem() != null) {
@@ -51,7 +51,7 @@ public class ChestItemController {
     }
 
     @PostMapping("/chestItem")
-    ChestItemData createChestItem(ChestItemAddDTO chestItemAddDTO) {
+    public ChestItemData createChestItem(ChestItemAddDTO chestItemAddDTO) {
         ChestItemData chestItemData = new ChestItemData();
         chestItemData.setChestItem(chestItemService.addChestItem(chestItemAddDTO));
         if (chestItemData.getChestItem() != null) {
@@ -65,7 +65,7 @@ public class ChestItemController {
     }
 
     @PutMapping("/chestItem/edit/{id}")
-    ChestItemData updateChestItem(@PathVariable int id, ChestItemUpdateDTO chestItemUpdateDTO) {
+    public ChestItemData updateChestItem(@PathVariable int id, ChestItemUpdateDTO chestItemUpdateDTO) {
         ChestItemData chestItemData = new ChestItemData();
         chestItemData.setChestItem(chestItemService.updateChestItem(id, chestItemUpdateDTO));
         if (chestItemData.getChestItem() != null) {
@@ -79,7 +79,7 @@ public class ChestItemController {
     }
 
     @DeleteMapping("/chestItem/{id}")
-    ChestItemData deleteChestItemById(@PathVariable int id) {
+    public ChestItemData deleteChestItemById(@PathVariable int id) {
         ChestItemData chestItemData = new ChestItemData();
         if (chestItemService.deleteChestItemById(id)) {
             chestItemData.setMessage("Delete Chest Item successfully");

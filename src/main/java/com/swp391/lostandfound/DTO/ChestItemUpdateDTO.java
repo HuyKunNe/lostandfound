@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class ChestItemUpdateDTO {
-
     private String fromDate;
     private String toDate;
     private int status;

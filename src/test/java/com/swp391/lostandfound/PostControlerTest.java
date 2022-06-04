@@ -1,5 +1,6 @@
 //package com.swp391.lostandfound;
 //
+//import com.swp391.lostandfound.DTO.PostAddDTO;
 //import com.swp391.lostandfound.DTO.UserAddDTO;
 //import com.swp391.lostandfound.DTO.UserUpdateDTO;
 //import com.swp391.lostandfound.controller.PostController;
@@ -84,6 +85,26 @@
 //        assertThat(userData2.getStatus()).isEqualTo("Success");
 //    }
 //
+//    @Test
+//    @Order(4)
+//    void addLostPost(){
+//        PostAddDTO postAddDTO = new PostAddDTO();
+//        postAddDTO.setDescription("Lost Post Description");
+//        postAddDTO.setLocation("Lost Post Location");
+//        postAddDTO.setUserId(userData1.getUser().getId());
+//        lostPostData = postController.addLostPost(postAddDTO);
+//
+//        assertThat(lostPostData.getPost().getUserCreate().getId()).isEqualTo(userData1.getUser().getId());
+//        assertThat(userDataReturn.getUser().getFirstName()).isEqualTo(userData1.getUser().getFirstName());
+//        assertThat(userDataReturn.getUser().getLastName()).isEqualTo(userData1.getUser().getLastName());
+//        assertThat(userDataReturn.getUser().getBirthday()).isEqualTo(userData1.getUser().getBirthday());
+//        assertThat(userDataReturn.getUser().getGender()).isEqualTo(userData1.getUser().getGender());
+//        assertThat(userDataReturn.getUser().getStudentCode()).isEqualTo(userData1.getUser().getStudentCode());
+//        assertThat(userDataReturn.getUser().getEmail()).isEqualTo(userData1.getUser().getEmail());
+//        assertThat(userDataReturn.getUser().getPhoneNumber()).isEqualTo(userData1.getUser().getPhoneNumber());
+//        assertThat(userDataReturn.getMessage()).isEqualTo("Find User Successfully");
+//        assertThat(userDataReturn.getStatus()).isEqualTo("Success");
+//    }
 //
 //
 //    @Test
