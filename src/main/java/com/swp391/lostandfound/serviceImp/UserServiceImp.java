@@ -57,9 +57,9 @@ public class UserServiceImp implements UserService {
             user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
             user.setStatus(userUpdateDTO.getStatus());
             user.setStudentCode(userUpdateDTO.getStudentCode());
-            if (userRepository.existsByPhoneNumber(userUpdateDTO.getPhoneNumber())
-                    || userRepository.existsByStudentCode(userUpdateDTO.getStudentCode())
-                    || userRepository.existsByEmail(userUpdateDTO.getEmail())) {
+            if (userRepository.existedPhoneById(userUpdateDTO.getPhoneNumber(), id) != null
+                    || userRepository.existedStudentCodeById(userUpdateDTO.getStudentCode(), id) != null
+                    || userRepository.existedEmailById(userUpdateDTO.getEmail(), id) != null) {
                 return null;
             } else {
                 return userRepository.save(user);

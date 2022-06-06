@@ -6,6 +6,7 @@ import lombok.Data;
 public class UserActivityUpdateDTO {
     private String Date;
     private int type;
+    private int status;
     private int postId;
     private int userId;
 }

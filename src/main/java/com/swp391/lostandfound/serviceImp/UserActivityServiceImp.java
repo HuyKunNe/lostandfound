@@ -28,13 +28,7 @@ public class UserActivityServiceImp implements UserActivityService {
 
     @Override
     public List<UserActivity> getAllUserActivity() {
-        return userActivityRepository.findAll();
-    }
-
-    @Override
-    public UserActivity updateUserActivity(UserActivity activity) {
-        // TODO Auto-generated method stub
-        return null;
+        return userActivityRepository.findByStatus(0);
     }
 
     @Override
@@ -49,7 +43,7 @@ public class UserActivityServiceImp implements UserActivityService {
     @Override
     public boolean deleteUserActivityById(int id) {
         if (userActivityRepository.existsById(id)) {
-            userActivityRepository.deleteById(id);
+            userActivityRepository.setFixedStatusFor(1, id);
             return true;
         } else {
             return false;
@@ -61,6 +55,7 @@ public class UserActivityServiceImp implements UserActivityService {
         var userActivity = new UserActivity();
         userActivity.setDate(userActivityAddDTO.getDate());
         userActivity.setType(userActivityAddDTO.getType());
+        userActivity.setStatus(0);
         if (userRepository.existsById(userActivityAddDTO.getUserId())) {
             userActivity.setUser(userRepository.findById(userActivityAddDTO.getUserId()).get());
             if (postRepository.existsById(userActivityAddDTO.getPostId())) {
@@ -79,6 +74,7 @@ public class UserActivityServiceImp implements UserActivityService {
             var userActivity = userActivityRepository.findById(id).get();
             userActivity.setDate(userActivityUpdateDTO.getDate());
             userActivity.setType(userActivityUpdateDTO.getType());
+            userActivity.setStatus(userActivityUpdateDTO.getStatus());
             if (userRepository.existsById(userActivityUpdateDTO.getUserId())) {
                 userActivity.setUser(userRepository.findById(userActivityUpdateDTO.getUserId()).get());
                 if (postRepository.existsById(userActivityUpdateDTO.getPostId())) {

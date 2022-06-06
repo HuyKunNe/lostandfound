@@ -25,6 +25,7 @@ public class UserActivity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int type;
+    private int status;
     private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
