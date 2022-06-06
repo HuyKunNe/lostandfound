@@ -32,4 +32,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("update User set Status = ?1 where Id = ?2")
     void updateStatusById(Integer status, Integer id);
 
+    @Modifying
+    @Query("Select u from User u where u.email like ?1 and u.id != ?2")
+    User existedEmailById(String email, int id);
+
+    @Modifying
+    @Query("Select u from User u where u.phoneNumber like ?1 and u.id != ?2")
+    User existedPhoneById(String email, int id);
+
+    @Modifying
+    @Query("Select u from User u where u.studentCode like ?1 and u.id != ?2")
+    User existedStudentCodeById(String email, int id);
 }

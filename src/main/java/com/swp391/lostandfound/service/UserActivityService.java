@@ -9,8 +9,6 @@ import com.swp391.lostandfound.entity.UserActivity;
 public interface UserActivityService {
     List<UserActivity> getAllUserActivity();
 
-    UserActivity updateUserActivity(UserActivity activity);
-
     UserActivity findUserActivityById(int id);
 
     boolean deleteUserActivityById(int id);
@@ -18,4 +16,5 @@ public interface UserActivityService {
     UserActivity addUserActivity(UserActivityAddDTO userActivityAddDTO);
 
     UserActivity updateUserActivity(int id, UserActivityUpdateDTO userActivityUpdateDTO);
+
 }
