@@ -9,6 +9,8 @@ import com.swp391.lostandfound.service.UserActivityService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping
+@CrossOrigin("*")
 public class UserActivityController {
 
     private UserActivityService userActivityService;
