@@ -29,7 +29,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByStudentCode(String StudentCode);
 
     @Modifying
-    @Query("update User set Status = ?1 where Id = ?2")
+    @Query("update User set status = ?1 where id = ?2")
     void updateStatusById(Integer status, Integer id);
 
 }

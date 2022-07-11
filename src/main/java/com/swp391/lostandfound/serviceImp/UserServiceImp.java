@@ -26,6 +26,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User addUser(UserAddDTO userAddDTO) {
+        System.out.println("Hahahahhahahah");
         User user = new User();
         user.setFirstName(userAddDTO.getFirstName());
         user.setLastName(userAddDTO.getLastName());
@@ -33,6 +34,7 @@ public class UserServiceImp implements UserService {
         user.setGender(userAddDTO.getGender());
         user.setPhoneNumber(userAddDTO.getPhoneNumber());
         user.setBirthday(userAddDTO.getBirthday());
+        user.setPassword(userAddDTO.getPassword());
         user.setRole(2); // admin = 1, normal user = 2
         user.setStatus(0);
         user.setStudentCode(userAddDTO.getStudentCode());
@@ -56,6 +58,7 @@ public class UserServiceImp implements UserService {
             user.setGender(userUpdateDTO.getGender());
             user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
             user.setStatus(userUpdateDTO.getStatus());
+            user.setPassword(userUpdateDTO.getPassword());
             user.setStudentCode(userUpdateDTO.getStudentCode());
             if (userRepository.existsByPhoneNumber(userUpdateDTO.getPhoneNumber())
                     || userRepository.existsByStudentCode(userUpdateDTO.getStudentCode())

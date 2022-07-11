@@ -1,17 +1,20 @@
 package com.swp391.lostandfound.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UserAddDTO {
+public class LoginResponseDTO {
     private String firstName;
     private String lastName;
-    private String birthday;
-    private String gender;
     private String studentCode;
     private String email;
-    private String phoneNumber;
-    private String password;
+    private int role;
+    private String token;
 }
+
