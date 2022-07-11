@@ -2,23 +2,19 @@ package com.swp391.lostandfound.entity;
 
 import java.util.Collection;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import com.sun.istack.NotNull;
+import lombok.*;
 
 @Entity
 @Data
 @Table(name = "Users")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -29,10 +25,13 @@ public class User {
     private String birthday;
     private String gender;
     private int status;
+    @Column(nullable = false)
     private String studentCode;
     private String email;
     private String phoneNumber;
     private int role;
+    @Column(nullable = false)
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Include
