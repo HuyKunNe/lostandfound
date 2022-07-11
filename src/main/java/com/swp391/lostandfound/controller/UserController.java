@@ -7,6 +7,7 @@ import com.swp391.lostandfound.entity.User;
 import com.swp391.lostandfound.jwt.JwtConfig;
 import com.swp391.lostandfound.service.UserService;
 
+<<<<<<< HEAD
 import io.jsonwebtoken.Jwts;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,20 @@ import javax.crypto.SecretKey;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Date;
+=======
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+>>>>>>> 75eb0d220f03f0b1dadd7a798cb43e46f230d559
 
 @RestController
+@RequestMapping
+@CrossOrigin("*")
 public class UserController {
 
     private final AuthenticationManager authenticationManager;
@@ -45,7 +58,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    ListUsersData getAllUsers() {
+    public ListUsersData getAllUsers() {
         ListUsersData users = new ListUsersData();
         users.setData(userService.getAllUsers());
         if (userService.getAllUsers().isEmpty()) {
@@ -91,11 +104,11 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    UserData getUserById(@PathVariable int id) {
+    public UserData getUserById(@PathVariable int id) {
         UserData userData = new UserData();
         User user = userService.findUserById(id);
         if (user != null) {
-            userData.setMessage("Find User Succcessfully");
+            userData.setMessage("Find User Successfully");
             userData.setUser(user);
             userData.setStatus("Success");
         } else {
@@ -106,11 +119,11 @@ public class UserController {
     }
 
     @PutMapping("/user/edit/{id}")
-    UserData updateUser(@PathVariable int id, UserUpdateDTO updateDTO) {
+    public UserData updateUser(@PathVariable int id, UserUpdateDTO updateDTO) {
         UserData userData = new UserData();
         User user = userService.updateUser(id, updateDTO);
         if (user != null) {
-            userData.setMessage("Update User Succcessfully");
+            userData.setMessage("Update User Successfully");
             userData.setUser(user);
             userData.setStatus("Success");
         } else {
@@ -121,6 +134,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
+<<<<<<< HEAD
     public ResponseEntity<ResponseDTO> createUser(UserAddDTO userAddDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
         this.userService.addUser(UserAddDTO.builder().firstName(userAddDTO.getFirstName()).lastName(userAddDTO.getLastName())
@@ -148,6 +162,18 @@ public class UserController {
         }else {
             responseDTO.setErrorCode("Create User Failed");
             return ResponseEntity.badRequest().body(responseDTO);
+=======
+    public UserData createUser(UserAddDTO userAddDTO) {
+        UserData userData = new UserData();
+        User user = userService.addUser(userAddDTO);
+        if (user != null) {
+            userData.setMessage("Create User Successfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("Create User Failed");
+            userData.setStatus("Fail");
+>>>>>>> 75eb0d220f03f0b1dadd7a798cb43e46f230d559
         }
         }catch (Exception e){
                 responseDTO.setErrorCode(e.getMessage());
@@ -167,10 +193,10 @@ public class UserController {
     }
 
     @DeleteMapping("/user/{id}")
-    UserData deleteUserById(@PathVariable int id) {
+    public UserData deleteUserById(@PathVariable int id) {
         UserData userData = new UserData();
         if (userService.deleteUserById(id)) {
-            userData.setMessage("Delete User Succcessfully");
+            userData.setMessage("Delete User Successfully");
             userData.setStatus("Success");
         } else {
             userData.setMessage("User is not exist");
@@ -181,7 +207,7 @@ public class UserController {
     }
 
     @GetMapping("/user/findByPhone")
-    UserData findUserByPhone(String phoneNumber) {
+    public UserData findUserByPhone(String phoneNumber) {
         UserData userData = new UserData();
         User user = userService.findUserByPhone(phoneNumber);
         if (user != null) {
@@ -196,7 +222,7 @@ public class UserController {
     }
 
     @GetMapping("/user/findByEmail")
-    UserData findUserByEmail(String email) {
+    public UserData findUserByEmail(String email) {
         UserData userData = new UserData();
         User user = userService.findUserByEmail(email);
         if (user != null) {
@@ -211,7 +237,7 @@ public class UserController {
     }
 
     @GetMapping("/user/findByStudentCode")
-    UserData findUserByStudentCode(String studentCode) {
+    public UserData findUserByStudentCode(String studentCode) {
         UserData userData = new UserData();
         User user = userService.findUserByStudentCode(studentCode);
         if (user != null) {

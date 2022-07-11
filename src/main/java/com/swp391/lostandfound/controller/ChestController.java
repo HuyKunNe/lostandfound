@@ -7,14 +7,18 @@ import com.swp391.lostandfound.dataFormat.ListChests;
 import com.swp391.lostandfound.entity.Chest;
 import com.swp391.lostandfound.service.ChestService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping
+@CrossOrigin("*")
 public class ChestController {
     private ChestService chestService;
 
@@ -29,7 +33,7 @@ public class ChestController {
         if (chests.getData().isEmpty()) {
             chests.setMessage("List is empty");
         } else {
-            chests.setMessage("get all enable chests successfully");
+            chests.setMessage("Get all enable chests successfully");
         }
         chests.setStatus("Success");
         return chests;
@@ -40,10 +44,10 @@ public class ChestController {
         ChestData result = new ChestData();
         result.setChest(chestService.findChestById(id));
         if (result.getChest() != null) {
-            result.setMessage("Find Type successfully");
+            result.setMessage("Find chest successfully");
             result.setStatus("Success");
         } else {
-            result.setMessage("Type is not found");
+            result.setMessage("Chest is not found");
             result.setStatus("Fail");
         }
         return result;
@@ -63,7 +67,7 @@ public class ChestController {
         ChestData result = new ChestData();
         Chest chest = chestService.updateChest(id, dto);
         if (chest != null) {
-            result.setMessage("Update type successfully");
+            result.setMessage("Update chest successfully");
             result.setChest(chest);
             result.setStatus("Success");
         } else {

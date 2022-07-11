@@ -7,14 +7,18 @@ import com.swp391.lostandfound.dataFormat.TypeData;
 import com.swp391.lostandfound.entity.Type;
 import com.swp391.lostandfound.service.TypeService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping
+@CrossOrigin("*")
 public class TypeController {
 
     private TypeService typeService;
@@ -24,7 +28,7 @@ public class TypeController {
     }
 
     @GetMapping("/type")
-    ListTypesData getAllTypes() {
+    public ListTypesData getAllTypes() {
         ListTypesData types = new ListTypesData();
         types.setData(typeService.getAllTypes());
         if (types.getData().isEmpty()) {
@@ -37,7 +41,7 @@ public class TypeController {
     }
 
     @GetMapping("/type/{id}")
-    TypeData findTypeById(@PathVariable int id) {
+    public TypeData findTypeById(@PathVariable int id) {
         TypeData result = new TypeData();
         result.setType(typeService.findTypeById(id));
         if (result.getType() != null) {
@@ -51,7 +55,7 @@ public class TypeController {
     }
 
     @PostMapping("/type")
-    TypeData addType(TypeAddDTO typeAddDTO) {
+    public TypeData addType(TypeAddDTO typeAddDTO) {
         TypeData result = new TypeData();
         result.setType(typeService.addType(typeAddDTO));
         result.setMessage("Create successfully");
@@ -60,7 +64,7 @@ public class TypeController {
     }
 
     @PutMapping("/type/{id}")
-    TypeData updateType(@PathVariable int id, TypeUpdateDTO typeUpdateDTO) {
+    public TypeData updateType(@PathVariable int id, TypeUpdateDTO typeUpdateDTO) {
         TypeData result = new TypeData();
         Type type = typeService.updateType(id, typeUpdateDTO);
         if (type != null) {
@@ -75,7 +79,7 @@ public class TypeController {
     };
 
     @DeleteMapping("/type/{id}")
-    TypeData deleteTypeById(@PathVariable int id) {
+    public TypeData deleteTypeById(@PathVariable int id) {
         TypeData result = new TypeData();
         if (typeService.deleteTypeById(id)) {
             result.setMessage("Delete Type successfully");

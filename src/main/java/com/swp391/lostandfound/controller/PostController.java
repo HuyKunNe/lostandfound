@@ -8,14 +8,18 @@ import com.swp391.lostandfound.dataFormat.PostData;
 import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping
+@CrossOrigin("*")
 public class PostController {
 
     private PostService postService;
@@ -27,7 +31,7 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    ListPosts getAllPosts() {
+    public ListPosts getAllPosts() {
         ListPosts posts = new ListPosts();
         posts.setData(postService.getAllPosts());
         if (posts.getData().isEmpty()) {
@@ -41,7 +45,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    PostData getPostById(@PathVariable int id) {
+    public PostData getPostById(@PathVariable int id) {
         PostData post = new PostData();
         post.setPost(postService.findPostById(id));
         if (post.getPost() != null) {
@@ -55,7 +59,7 @@ public class PostController {
     }
 
     @GetMapping("/post/media")
-    ListMedias getMediaByPostId(int postId) {
+    public ListMedias getMediaByPostId(int postId) {
         ListMedias media = new ListMedias();
         media.setData(mediaService.findMediaByPostId(postId));
         if (media.getData().isEmpty()) {
@@ -69,7 +73,7 @@ public class PostController {
     }
 
     @PostMapping("/post/addLostPost")
-    PostData addLostPost(PostAddDTO postAddDTO) {
+    public PostData addLostPost(PostAddDTO postAddDTO) {
         PostData post = new PostData();
         post.setPost(postService.addLostPost(postAddDTO));
         if (post.getPost() != null) {
@@ -83,7 +87,7 @@ public class PostController {
     }
 
     @PostMapping("/post/addFindPost")
-    PostData addFindPost(PostAddDTO postAddDTO) {
+    public PostData addFindPost(PostAddDTO postAddDTO) {
         PostData post = new PostData();
         post.setPost(postService.addFindPost(postAddDTO));
         if (post.getPost() != null) {
@@ -97,7 +101,7 @@ public class PostController {
     }
 
     @PutMapping("/post/{id}")
-    PostData confirmFoundedPostByAdmin(@PathVariable int id, int returnUserId) {
+    public PostData confirmFoundedPostByAdmin(@PathVariable int id, int returnUserId) {
         PostData post = new PostData();
         post.setPost(postService.confirmFoundedPostByAdmin(id, returnUserId));
         if (post.getPost() != null) {
@@ -111,7 +115,7 @@ public class PostController {
     }
 
     @PutMapping("/post/edit/{id}")
-    PostData updatePostByUser(@PathVariable int id, PostUpdateByUserDTO postUpdateDTO) {
+    public PostData updatePostByUser(@PathVariable int id, PostUpdateByUserDTO postUpdateDTO) {
         PostData post = new PostData();
         post.setPost(postService.updatePostByUser(id, postUpdateDTO));
         if (post.getPost() != null) {
@@ -125,7 +129,7 @@ public class PostController {
     }
 
     @DeleteMapping("/post/{id}")
-    PostData deletePostById(@PathVariable int id) {
+    public PostData deletePostById(@PathVariable int id) {
         PostData post = new PostData();
         if (postService.deletePostById(id)) {
             post.setMessage("Delete Post successfully");
@@ -138,7 +142,7 @@ public class PostController {
     }
 
     @GetMapping("/post/enablePosts")
-    ListPosts getAllEnabledPosts() {
+    public ListPosts getAllEnabledPosts() {
         ListPosts post = new ListPosts();
         post.setData(postService.getAllEnabledPosts());
         if (post.getData().isEmpty()) {
@@ -152,7 +156,7 @@ public class PostController {
     }
 
     @GetMapping("/post/lostPosts")
-    ListPosts getAllLostPosts() {
+    public ListPosts getAllLostPosts() {
         ListPosts post = new ListPosts();
         post.setData(postService.getAllLostPosts());
         if (post.getData().isEmpty()) {
@@ -166,7 +170,7 @@ public class PostController {
     }
 
     @GetMapping("/post/findPosts")
-    ListPosts getAllFindPosts() {
+    public ListPosts getAllFindPosts() {
         ListPosts post = new ListPosts();
         post.setData(postService.getAllFindPost());
         if (post.getData().isEmpty()) {
@@ -180,7 +184,7 @@ public class PostController {
     }
 
     @GetMapping("/post/NotConfirmPosts")
-    ListPosts getAllNotConfirmPosts() {
+    public ListPosts getAllNotConfirmPosts() {
         ListPosts post = new ListPosts();
         post.setData(postService.getALLNotConfirmedPosts());
         if (post.getData().isEmpty()) {
@@ -194,7 +198,7 @@ public class PostController {
     }
 
     @GetMapping("/post/ConfirmPosts")
-    ListPosts getAllConfirmedPosts() {
+    public ListPosts getAllConfirmedPosts() {
         ListPosts post = new ListPosts();
         post.setData(postService.getAllConfirmedPosts());
         if (post.getData().isEmpty()) {
