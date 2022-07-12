@@ -55,7 +55,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/user/authenticate", "/user/**")
                 .permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
     }
 
