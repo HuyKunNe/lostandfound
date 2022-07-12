@@ -37,6 +37,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        final CorsConfiguration config = new CorsConfiguration();
+
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+
         http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterAfter(new TokenVerifier(secretKey, jwtConfig), UsernamePasswordAuthenticationFilter.class)
@@ -73,15 +79,21 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() throws Exception {
         final CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(ImmutableList.of("https://localhost:3000")); // www - obligatory
-        // configuration.setAllowedOrigins(ImmutableList.of("*")); //set access from all
+        // configuration.setAllowedOrigins(ImmutableList.of("https://localhost:3000"));
+        // // www - obligatory
+        configuration.setAllowedOrigins(ImmutableList.of("*")); // set access from all
         // domains
-        configuration.setAllowedMethods(ImmutableList.of("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedMethods(ImmutableList.of("GET", "PUT", "POST", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowedHeaders(ImmutableList.of("X-Requested-With", "Origin", "Content-Type", "Accept",
+                "Authorization", "Access-Control-Allow-Credentials", "Access-Control-Allow-Headers",
+                "Access-Control-Allow-Methods",
+                "Access-Control-Allow-Origin", "Access-Control-Expose-Headers", "Access-Control-Max-Age",
+                "Access-Control-Request-Headers", "Access-Control-Request-Method", "Age", "Allow", "Alternates",
+                "Content-Range", "Content-Disposition", "Content-Description"));
         configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
