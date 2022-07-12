@@ -8,7 +8,6 @@ import com.swp391.lostandfound.jwt.JwtConfig;
 import com.swp391.lostandfound.service.UserService;
 
 import io.jsonwebtoken.Jwts;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,12 +40,11 @@ public class UserController {
     private final SecretKey secretKey;
     private final PasswordEncoder passwordEncoder;
 
-
     @Autowired
     private UserService userService;
 
     public UserController(AuthenticationManager authenticationManager, JwtConfig jwtConfig, SecretKey secretKey,
-                          PasswordEncoder passwordEncoder, UserService userService) {
+            PasswordEncoder passwordEncoder, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtConfig = jwtConfig;
         this.secretKey = secretKey;
@@ -70,7 +68,8 @@ public class UserController {
     @PermitAll
     public ResponseEntity<ResponseDTO> authenticate(@Valid @RequestBody AuthenticateDTO userLogin) {
         ResponseDTO responseDTO = new ResponseDTO();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userLogin.getStudentCode(), userLogin.getPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userLogin.getStudentCode(),
+                userLogin.getPassword());
         try {
             Authentication authenticate = authenticationManager.authenticate(authentication);
 
@@ -84,12 +83,13 @@ public class UserController {
 
                 LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder().firstName(userAuthen.getFirstName())
                         .lastName(userAuthen.getLastName()).studentCode(userAuthen.getStudentCode())
-                        .email(userAuthen.getEmail()).role(userAuthen.getRole()).token(jwtConfig.getTokenPrefix() + token).build();
+                        .email(userAuthen.getEmail()).role(userAuthen.getRole())
+                        .token(jwtConfig.getTokenPrefix() + token).build();
 
                 responseDTO.setData(loginResponseDTO);
                 responseDTO.setSuccessCode("Login success");
                 return ResponseEntity.ok().body(responseDTO);
-            }else {
+            } else {
                 responseDTO.setErrorCode("login fail");
                 return ResponseEntity.ok().body(responseDTO);
             }
@@ -133,11 +133,14 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<ResponseDTO> createUser(UserAddDTO userAddDTO) {
         ResponseDTO responseDTO = new ResponseDTO();
-        this.userService.addUser(UserAddDTO.builder().firstName(userAddDTO.getFirstName()).lastName(userAddDTO.getLastName())
-                .birthday(userAddDTO.getBirthday()).gender(userAddDTO.getGender()).studentCode(userAddDTO.getStudentCode())
-                .email(userAddDTO.getEmail()).phoneNumber(userAddDTO.getPhoneNumber())
-                .password(passwordEncoder.encode(userAddDTO.getPassword())).build());
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userAddDTO.getStudentCode(), userAddDTO.getPassword());
+        this.userService
+                .addUser(UserAddDTO.builder().firstName(userAddDTO.getFirstName()).lastName(userAddDTO.getLastName())
+                        .birthday(userAddDTO.getBirthday()).gender(userAddDTO.getGender())
+                        .studentCode(userAddDTO.getStudentCode())
+                        .email(userAddDTO.getEmail()).phoneNumber(userAddDTO.getPhoneNumber())
+                        .password(passwordEncoder.encode(userAddDTO.getPassword())).build());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userAddDTO.getStudentCode(),
+                userAddDTO.getPassword());
         try {
             Authentication authenticate = authenticationManager.authenticate(authentication);
             if (authenticate.isAuthenticated()) {
@@ -148,9 +151,11 @@ public class UserController {
                         .setIssuedAt((new Date())).setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
                         .signWith(secretKey).compact();
 
-                LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder().firstName(userAuthenticated.getFirstName())
+                LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
+                        .firstName(userAuthenticated.getFirstName())
                         .lastName(userAuthenticated.getLastName()).studentCode(userAuthenticated.getStudentCode())
-                        .email(userAuthenticated.getEmail()).role(userAuthenticated.getRole()).token(jwtConfig.getTokenPrefix() + token).build();
+                        .email(userAuthenticated.getEmail()).role(userAuthenticated.getRole())
+                        .token(jwtConfig.getTokenPrefix() + token).build();
 
                 responseDTO.setData(loginResponseDTO);
                 responseDTO.setSuccessCode("Create User Succcessfully");
@@ -159,9 +164,9 @@ public class UserController {
                 responseDTO.setErrorCode("Create User Failed");
                 return ResponseEntity.badRequest().body(responseDTO);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             responseDTO.setErrorCode(e.getMessage());
-            return  ResponseEntity.badRequest().body(responseDTO);
+            return ResponseEntity.badRequest().body(responseDTO);
         }
     }
 
