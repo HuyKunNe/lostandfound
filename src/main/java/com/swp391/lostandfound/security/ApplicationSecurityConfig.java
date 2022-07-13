@@ -38,10 +38,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        final CorsConfiguration config = new CorsConfiguration();
-
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
+//        final CorsConfiguration config = new CorsConfiguration();
+//
+//        config.addAllowedOrigin("*");
+//        config.addAllowedHeader("*");
 
         http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -101,14 +101,28 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/greeting-javaconfig").allowedOrigins("http://localhost:3000");
-            }
-        };
-    }
+//    @Bean
+//    public WebMvcConfigurer corsConfigurer() {
+//        return new WebMvcConfigurer() {
+//            @Override
+//            public void addCorsMappings(CorsRegistry registry) {
+//                registry.addMapping("/greeting-javaconfig").allowedOrigins("http://localhost:3000");
+//            }
+//        };
+//    }
+@Bean
+public WebMvcConfigurer corsConfigurer() {
+
+    return new WebMvcConfigurer() {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry
+                    .addMapping("/**")
+                    .allowedMethods(CorsConfiguration.ALL)
+                    .allowedHeaders(CorsConfiguration.ALL)
+                    .allowedOriginPatterns(CorsConfiguration.ALL);
+        }
+    };
+}
 
 }
