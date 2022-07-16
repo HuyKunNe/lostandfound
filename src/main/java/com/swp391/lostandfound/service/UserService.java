@@ -22,4 +22,6 @@ public interface UserService {
     User findUserByStudentCode(String studentCode);
 
     boolean deleteUserById(int id);
+
+    User findUserByStudentCodeandPassword(String studentCode, String password);
 }

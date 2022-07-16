@@ -26,7 +26,6 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User addUser(UserAddDTO userAddDTO) {
-        System.out.println("Hahahahhahahah");
         User user = new User();
         user.setFirstName(userAddDTO.getFirstName());
         user.setLastName(userAddDTO.getLastName());
@@ -37,7 +36,7 @@ public class UserServiceImp implements UserService {
         user.setPassword(userAddDTO.getPassword());
         user.setRole(2); // admin = 1, normal user = 2
         user.setStatus(0);
-        user.setStudentCode(userAddDTO.getStudentCode());
+        user.setStudentCode(userAddDTO.getStudentCode().toUpperCase());
         if (userRepository.existsByPhoneNumber(userAddDTO.getPhoneNumber())
                 || userRepository.existsByStudentCode(userAddDTO.getStudentCode())
                 || userRepository.existsByEmail(userAddDTO.getEmail())) {
@@ -59,8 +58,8 @@ public class UserServiceImp implements UserService {
             user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
             user.setStatus(userUpdateDTO.getStatus());
             user.setPassword(userUpdateDTO.getPassword());
-            user.setStudentCode(userUpdateDTO.getStudentCode());
-            if (userRepository.existedPhoneById(userUpdateDTO.getPhoneNumber(), id) != null
+            user.setStudentCode(userUpdateDTO.getStudentCode().toUpperCase());
+            if (userRepository.existedPhoneNumberById(userUpdateDTO.getPhoneNumber(), id) != null
                     || userRepository.existedStudentCodeById(userUpdateDTO.getStudentCode(), id) != null
                     || userRepository.existedEmailById(userUpdateDTO.getEmail(), id) != null) {
                 return null;
@@ -102,6 +101,11 @@ public class UserServiceImp implements UserService {
     @Override
     public User findUserByStudentCode(String studentCode) {
         return userRepository.findByStudentCodeLike(studentCode);
+    }
+
+    @Override
+    public User findUserByStudentCodeandPassword(String studentCode, String password) {
+        return userRepository.findUserByStudentCodeAndPassword(studentCode, password);
     }
 
 }

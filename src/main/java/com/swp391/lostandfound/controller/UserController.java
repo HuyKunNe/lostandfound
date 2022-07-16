@@ -144,4 +144,18 @@ public class UserController {
         return userData;
     }
 
+    @GetMapping("/login")
+    public UserData Login(String studentCode, String password) {
+        UserData userData = new UserData();
+        User user = userService.findUserByStudentCodeandPassword(studentCode.toUpperCase(), password);
+        if (user != null) {
+            userData.setMessage("Login successfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("User is not exist");
+            userData.setStatus("Fail");
+        }
+        return userData;
+    }
 }
