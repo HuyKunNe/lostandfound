@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 @Entity
