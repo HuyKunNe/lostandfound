@@ -20,8 +20,18 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public List<User> getAllEnableUsers() {
+        return userRepository.findUserByStatusAndRole(0, 2);
+    }
+
+    @Override
+    public List<User> getAllAdmins() {
+        return userRepository.findByRole(1);
+    }
+
+    @Override
     public List<User> getAllUsers() {
-        return userRepository.findUserByStatus(0);
+        return userRepository.findByRole(2);
     }
 
     @Override
@@ -59,12 +69,12 @@ public class UserServiceImp implements UserService {
             user.setStatus(userUpdateDTO.getStatus());
             user.setPassword(userUpdateDTO.getPassword());
             user.setStudentCode(userUpdateDTO.getStudentCode().toUpperCase());
-            if (userRepository.existedPhoneNumberById(userUpdateDTO.getPhoneNumber(), id) != null
-                    || userRepository.existedStudentCodeById(userUpdateDTO.getStudentCode(), id) != null
-                    || userRepository.existedEmailById(userUpdateDTO.getEmail(), id) != null) {
-                return null;
-            } else {
+            if (userRepository.findByIdNotLikeAndPhoneNumberLike(id, userUpdateDTO.getPhoneNumber()).isEmpty()
+                    && userRepository.findByIdNotLikeAndStudentCodeLike(id, userUpdateDTO.getStudentCode()).isEmpty()
+                    && userRepository.findByIdNotLikeAndEmailLike(id, userUpdateDTO.getEmail()).isEmpty()) {
                 return userRepository.save(user);
+            } else {
+                return null;
             }
         } else
             return null;
@@ -81,8 +91,13 @@ public class UserServiceImp implements UserService {
     @Override
     public boolean deleteUserById(int id) {
         if (userRepository.existsById(id)) {
-            userRepository.updateStatusById(1, id);
-            return true;
+            User user = userRepository.findById(id).get();
+            if (user.getRole() == 2) {
+                userRepository.updateStatusById(1, id);
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -106,6 +121,22 @@ public class UserServiceImp implements UserService {
     @Override
     public User findUserByStudentCodeandPassword(String studentCode, String password) {
         return userRepository.findUserByStudentCodeAndPassword(studentCode, password);
+    }
+
+    @Override
+    public User setAdmin(int id) {
+        if (userRepository.existsById(id)) {
+            User user = userRepository.findById(id).get();
+            if (user.getStatus() != 0) {
+                return null;
+            } else {
+                user.setRole(1);
+                userRepository.save(user);
+                return user;
+            }
+        } else {
+            return null;
+        }
     }
 
 }

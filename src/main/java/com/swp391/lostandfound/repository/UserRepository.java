@@ -14,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    List<User> findUserByStatus(int status);
+    List<User> findUserByStatusAndRole(int status, int role);
+
+    List<User> findByRole(int role);
 
     User findByEmailLike(String email);
 
@@ -28,21 +30,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     boolean existsByStudentCode(String StudentCode);
 
+    List<User> findByIdNotLikeAndStudentCodeLike(int id, String StudentCode);
+
+    List<User> findByIdNotLikeAndPhoneNumberLike(int id, String StudentCode);
+
+    List<User> findByIdNotLikeAndEmailLike(int id, String StudentCode);
+
     @Modifying
     @Query("update User set status = ?1 where id = ?2")
     void updateStatusById(Integer status, Integer id);
-
-    @Modifying
-    @Query("Select u from User u where u.email like ?1 and u.id != ?2")
-    User existedEmailById(String email, int id);
-
-    @Modifying
-    @Query("Select u from User u where u.phoneNumber like ?1 and u.id != ?2")
-    User existedPhoneNumberById(String phone, int id);
-
-    @Modifying
-    @Query("Select u from User u where u.studentCode like ?1 and u.id != ?2")
-    User existedStudentCodeById(String email, int id);
 
     User findUserByStudentCodeAndPassword(String studentCode, String password);
 }

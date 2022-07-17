@@ -9,9 +9,15 @@ import com.swp391.lostandfound.entity.User;
 public interface UserService {
     List<User> getAllUsers();
 
+    List<User> getAllEnableUsers();
+
+    List<User> getAllAdmins();
+
     User addUser(UserAddDTO userAddDTO);
 
     User updateUser(int id, UserUpdateDTO updateDTO);
+
+    User setAdmin(int id);
 
     User findUserById(int id);
 
