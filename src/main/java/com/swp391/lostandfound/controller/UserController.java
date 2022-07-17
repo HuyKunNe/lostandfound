@@ -27,11 +27,35 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/user-enable")
+    public ListUsersData getAllEnableUsers() {
+        ListUsersData users = new ListUsersData();
+        users.setData(userService.getAllEnableUsers());
+        if (userService.getAllEnableUsers().isEmpty()) {
+            users.setMessage("List is empty");
+        } else
+            users.setMessage("get all enable users successfully");
+        users.setStatus("success");
+        return users;
+    }
+
     @GetMapping("/user")
     public ListUsersData getAllUsers() {
         ListUsersData users = new ListUsersData();
         users.setData(userService.getAllUsers());
         if (userService.getAllUsers().isEmpty()) {
+            users.setMessage("List is empty");
+        } else
+            users.setMessage("get all enable users successfully");
+        users.setStatus("success");
+        return users;
+    }
+
+    @GetMapping("/admin")
+    public ListUsersData getAllAdmins() {
+        ListUsersData users = new ListUsersData();
+        users.setData(userService.getAllAdmins());
+        if (userService.getAllAdmins().isEmpty()) {
             users.setMessage("List is empty");
         } else
             users.setMessage("get all enable users successfully");
@@ -63,7 +87,7 @@ public class UserController {
             userData.setUser(user);
             userData.setStatus("Success");
         } else {
-            userData.setMessage("User is not exist");
+            userData.setMessage("Update failed");
             userData.setStatus("Fail");
         }
         return userData;
@@ -92,7 +116,7 @@ public class UserController {
             userData.setMessage("Delete User Successfully");
             userData.setStatus("Success");
         } else {
-            userData.setMessage("User is not exist");
+            userData.setMessage("Delete User Failure");
             userData.setStatus("Fail");
         }
 
@@ -154,6 +178,21 @@ public class UserController {
             userData.setStatus("Success");
         } else {
             userData.setMessage("User is not exist");
+            userData.setStatus("Fail");
+        }
+        return userData;
+    }
+
+    @PutMapping("/user/setAdmin")
+    public UserData setAdmin(int id) {
+        UserData userData = new UserData();
+        User user = userService.setAdmin(id);
+        if (user != null) {
+            userData.setMessage("Set admin successfully");
+            userData.setUser(user);
+            userData.setStatus("Success");
+        } else {
+            userData.setMessage("Set admin failed");
             userData.setStatus("Fail");
         }
         return userData;
