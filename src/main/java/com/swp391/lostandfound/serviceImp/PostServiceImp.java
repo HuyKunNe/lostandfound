@@ -70,6 +70,7 @@ public class PostServiceImp implements PostService {
     @Override
     public Post addLostPost(PostAddDTO postAddDTO) {
         Post post = new Post();
+        post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
         post.setLocation(postAddDTO.getLocation());
         post.setType(1);
@@ -85,6 +86,7 @@ public class PostServiceImp implements PostService {
     @Override
     public Post addFindPost(PostAddDTO postAddDTO) {
         Post post = new Post();
+        post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
         post.setLocation(postAddDTO.getLocation());
         post.setType(0);
@@ -101,6 +103,7 @@ public class PostServiceImp implements PostService {
     public Post updatePostByUser(int id, PostUpdateByUserDTO postUpdateDTO) {
         if (postRepository.existsById(id)) {
             Post post = postRepository.findById(id).get();
+            post.setName(postUpdateDTO.getName());
             post.setDescription(postUpdateDTO.getDescription());
             post.setLocation(postUpdateDTO.getLocation());
             post.setStatus(postUpdateDTO.getStatus());
