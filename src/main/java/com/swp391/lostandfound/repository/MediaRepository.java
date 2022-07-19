@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Repository
 public interface MediaRepository extends JpaRepository<Media, Integer> {
 
@@ -18,9 +19,8 @@ public interface MediaRepository extends JpaRepository<Media, Integer> {
 
     List<Media> findMediaByPost(Post post);
 
-    @Transactional
     @Modifying
     @Query("update Media set Status = ?1 where Id = ?2")
-    Media updateStatusById(Integer status, Integer id);
+    Media updateStatusById(int status, int id);
 
 }

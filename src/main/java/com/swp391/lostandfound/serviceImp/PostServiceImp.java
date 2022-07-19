@@ -1,12 +1,18 @@
 package com.swp391.lostandfound.serviceImp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.IPostReponseDTO;
+import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
+import com.swp391.lostandfound.entity.Media;
 import com.swp391.lostandfound.entity.Post;
+import com.swp391.lostandfound.repository.MediaRepository;
 import com.swp391.lostandfound.repository.PostRepository;
 import com.swp391.lostandfound.repository.UserRepository;
+import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
 
 import org.springframework.stereotype.Service;
@@ -22,15 +28,37 @@ public class PostServiceImp implements PostService {
 
     private PostRepository postRepository;
     private UserRepository userRepository;
+    private MediaRepository mediaRepository;
 
-    public PostServiceImp(PostRepository postRepository, UserRepository userRepository) {
+    public PostServiceImp(PostRepository postRepository, UserRepository userRepository,
+            MediaRepository mediaRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
+        this.mediaRepository = mediaRepository;
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostResponseDTO> getAllPosts() {
+        List<IPostReponseDTO> list = postRepository.getAllPostWithMedia();
+        List<PostResponseDTO> result = new ArrayList<>();
+        for (IPostReponseDTO post : list) {
+            Post dto = new Post();
+            dto.setId(post.getId());
+            dto.setDescription(post.getDescription());
+            dto.setLocation(post.getLocation());
+            dto.setType(post.getType());
+            dto.setStatus(post.getStatus());
+            if (post.getCreateUserID() != null) {
+                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
+            }
+            if (post.getReturnUserID() != null) {
+                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
+            }
+            dto.setName(post.getName());
+            Media media = mediaRepository.findById(post.getPostId()).get();
+            result.add(new PostResponseDTO(dto, media));
+        }
+        return result;
     }
 
     @Override
@@ -76,7 +104,7 @@ public class PostServiceImp implements PostService {
         post.setType(1);
         post.setStatus(0);
         if (userRepository.existsById(postAddDTO.getUserId())) {
-            post.setUserReturn(userRepository.findById(postAddDTO.getUserId()).get());
+            post.setUserReturn(userRepository.findById(postAddDTO.getUserId()));
             return postRepository.save(post);
         } else {
             return null;
@@ -92,7 +120,7 @@ public class PostServiceImp implements PostService {
         post.setType(0);
         post.setStatus(0);
         if (userRepository.existsById(postAddDTO.getUserId())) {
-            post.setUserCreate(userRepository.findById(postAddDTO.getUserId()).get());
+            post.setUserCreate(userRepository.findById(postAddDTO.getUserId()));
             return postRepository.save(post);
         } else {
             return null;
@@ -117,7 +145,7 @@ public class PostServiceImp implements PostService {
     public Post confirmFoundedPostByAdmin(int id, int returnUserId) {
         if (postRepository.existsById(id)) {
             Post post = postRepository.findById(id).get();
-            post.setUserReturn(userRepository.findById(returnUserId).get());
+            post.setUserReturn(userRepository.findById(returnUserId));
             post.setStatus(1);
             return postRepository.save(post);
         } else {

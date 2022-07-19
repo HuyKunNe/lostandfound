@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
 import com.swp391.lostandfound.entity.Post;
 
 public interface PostService {
-    List<Post> getAllPosts();
+    List<PostResponseDTO> getAllPosts();
 
     Post addLostPost(PostAddDTO postAddDTO);
 

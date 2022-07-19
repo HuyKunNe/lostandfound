@@ -57,7 +57,7 @@ public class UserActivityServiceImp implements UserActivityService {
         userActivity.setType(userActivityAddDTO.getType());
         userActivity.setStatus(0);
         if (userRepository.existsById(userActivityAddDTO.getUserId())) {
-            userActivity.setUser(userRepository.findById(userActivityAddDTO.getUserId()).get());
+            userActivity.setUser(userRepository.findById(userActivityAddDTO.getUserId()));
             if (postRepository.existsById(userActivityAddDTO.getPostId())) {
                 userActivity.setPost(postRepository.findById(userActivityAddDTO.getPostId()).get());
                 return userActivityRepository.save(userActivity);
@@ -76,7 +76,7 @@ public class UserActivityServiceImp implements UserActivityService {
             userActivity.setType(userActivityUpdateDTO.getType());
             userActivity.setStatus(userActivityUpdateDTO.getStatus());
             if (userRepository.existsById(userActivityUpdateDTO.getUserId())) {
-                userActivity.setUser(userRepository.findById(userActivityUpdateDTO.getUserId()).get());
+                userActivity.setUser(userRepository.findById(userActivityUpdateDTO.getUserId()));
                 if (postRepository.existsById(userActivityUpdateDTO.getPostId())) {
                     userActivity.setPost(postRepository.findById(userActivityUpdateDTO.getPostId()).get());
                     return userActivityRepository.save(userActivity);
