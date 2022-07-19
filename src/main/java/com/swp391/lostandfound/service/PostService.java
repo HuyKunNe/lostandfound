@@ -22,15 +22,13 @@ public interface PostService {
 
     boolean deletePostById(int id);
 
-    List<Post> getAllEnabledPosts();
+    List<PostResponseDTO> getAllLostPosts();
 
-    List<Post> getAllLostPosts();
+    List<PostResponseDTO> getAllFindPost();
 
-    List<Post> getAllFindPost();
+    List<PostResponseDTO> getALLNotConfirmedPosts();
 
-    List<Post> getALLNotConfirmedPosts();
-
-    List<Post> getAllConfirmedPosts();
+    List<PostResponseDTO> getAllConfirmedPosts();
 
     Post confirmFoundedPostByLostUser(int id, int lostUserId);
 }

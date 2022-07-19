@@ -4,7 +4,6 @@ import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.dataFormat.ListMedias;
 import com.swp391.lostandfound.dataFormat.ListPostResponeData;
-import com.swp391.lostandfound.dataFormat.ListPosts;
 import com.swp391.lostandfound.dataFormat.PostData;
 import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
@@ -142,23 +141,9 @@ public class PostController {
         return post;
     }
 
-    @GetMapping("/post/enablePosts")
-    public ListPosts getAllEnabledPosts() {
-        ListPosts post = new ListPosts();
-        post.setData(postService.getAllEnabledPosts());
-        if (post.getData().isEmpty()) {
-            post.setMessage("List is empty");
-            post.setStatus("Fail");
-        } else {
-            post.setMessage("Get all enable post successfully");
-            post.setStatus("Success");
-        }
-        return post;
-    }
-
     @GetMapping("/post/lostPosts")
-    public ListPosts getAllLostPosts() {
-        ListPosts post = new ListPosts();
+    public ListPostResponeData getAllLostPosts() {
+        ListPostResponeData post = new ListPostResponeData();
         post.setData(postService.getAllLostPosts());
         if (post.getData().isEmpty()) {
             post.setMessage("List is empty");
@@ -171,8 +156,8 @@ public class PostController {
     }
 
     @GetMapping("/post/findPosts")
-    public ListPosts getAllFindPosts() {
-        ListPosts post = new ListPosts();
+    public ListPostResponeData getAllFindPosts() {
+        ListPostResponeData post = new ListPostResponeData();
         post.setData(postService.getAllFindPost());
         if (post.getData().isEmpty()) {
             post.setMessage("List is empty");
@@ -185,8 +170,8 @@ public class PostController {
     }
 
     @GetMapping("/post/NotConfirmPosts")
-    public ListPosts getAllNotConfirmPosts() {
-        ListPosts post = new ListPosts();
+    public ListPostResponeData getAllNotConfirmPosts() {
+        ListPostResponeData post = new ListPostResponeData();
         post.setData(postService.getALLNotConfirmedPosts());
         if (post.getData().isEmpty()) {
             post.setMessage("List is empty");
@@ -199,8 +184,8 @@ public class PostController {
     }
 
     @GetMapping("/post/ConfirmPosts")
-    public ListPosts getAllConfirmedPosts() {
-        ListPosts post = new ListPosts();
+    public ListPostResponeData getAllConfirmedPosts() {
+        ListPostResponeData post = new ListPostResponeData();
         post.setData(postService.getAllConfirmedPosts());
         if (post.getData().isEmpty()) {
             post.setMessage("List is empty");
