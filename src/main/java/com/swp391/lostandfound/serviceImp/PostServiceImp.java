@@ -12,7 +12,6 @@ import com.swp391.lostandfound.entity.Post;
 import com.swp391.lostandfound.repository.MediaRepository;
 import com.swp391.lostandfound.repository.PostRepository;
 import com.swp391.lostandfound.repository.UserRepository;
-import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
 
 import org.springframework.stereotype.Service;
@@ -39,7 +38,7 @@ public class PostServiceImp implements PostService {
 
     @Override
     public List<PostResponseDTO> getAllPosts() {
-        List<IPostReponseDTO> list = postRepository.getAllPostWithMedia();
+        List<IPostReponseDTO> list = postRepository.getAllPostByStatusLessThan(2);
         List<PostResponseDTO> result = new ArrayList<>();
         for (IPostReponseDTO post : list) {
             Post dto = new Post();
@@ -72,27 +71,98 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public List<Post> getAllConfirmedPosts() {
-        return postRepository.findPostByStatus(1);
+    public List<PostResponseDTO> getAllConfirmedPosts() {
+        List<IPostReponseDTO> list = postRepository.getAllPostByStatus(1);
+        List<PostResponseDTO> result = new ArrayList<>();
+        for (IPostReponseDTO post : list) {
+            Post dto = new Post();
+            dto.setId(post.getId());
+            dto.setDescription(post.getDescription());
+            dto.setLocation(post.getLocation());
+            dto.setType(post.getType());
+            dto.setStatus(post.getStatus());
+            if (post.getCreateUserID() != null) {
+                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
+            }
+            if (post.getReturnUserID() != null) {
+                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
+            }
+            dto.setName(post.getName());
+            Media media = mediaRepository.findById(post.getPostId()).get();
+            result.add(new PostResponseDTO(dto, media));
+        }
+        return result;
+    }
+
+    public List<PostResponseDTO> getAllLostPosts() {
+        List<IPostReponseDTO> list = postRepository.getAllPostByTypeWithMedia(0, 0);
+        List<PostResponseDTO> result = new ArrayList<>();
+        for (IPostReponseDTO post : list) {
+            Post dto = new Post();
+            dto.setId(post.getId());
+            dto.setDescription(post.getDescription());
+            dto.setLocation(post.getLocation());
+            dto.setType(post.getType());
+            dto.setStatus(post.getStatus());
+            if (post.getCreateUserID() != null) {
+                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
+            }
+            if (post.getReturnUserID() != null) {
+                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
+            }
+            dto.setName(post.getName());
+            Media media = mediaRepository.findById(post.getPostId()).get();
+            result.add(new PostResponseDTO(dto, media));
+        }
+        return result;
     }
 
     @Override
-    public List<Post> getAllEnabledPosts() {
-        return postRepository.findPostByStatusLessThan(2);
-    }
-
-    public List<Post> getAllLostPosts() {
-        return postRepository.findPostByType(1);
+    public List<PostResponseDTO> getAllFindPost() {
+        List<IPostReponseDTO> list = postRepository.getAllPostByTypeWithMedia(1, 0);
+        List<PostResponseDTO> result = new ArrayList<>();
+        for (IPostReponseDTO post : list) {
+            Post dto = new Post();
+            dto.setId(post.getId());
+            dto.setDescription(post.getDescription());
+            dto.setLocation(post.getLocation());
+            dto.setType(post.getType());
+            dto.setStatus(post.getStatus());
+            if (post.getCreateUserID() != null) {
+                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
+            }
+            if (post.getReturnUserID() != null) {
+                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
+            }
+            dto.setName(post.getName());
+            Media media = mediaRepository.findById(post.getPostId()).get();
+            result.add(new PostResponseDTO(dto, media));
+        }
+        return result;
     }
 
     @Override
-    public List<Post> getAllFindPost() {
-        return postRepository.findPostByType(0);
-    }
-
-    @Override
-    public List<Post> getALLNotConfirmedPosts() {
-        return postRepository.findPostByTypeAndStatus(0, 0);
+    public List<PostResponseDTO> getALLNotConfirmedPosts() {
+        List<IPostReponseDTO> list = postRepository.getAllPostByStatus(0);
+        List<PostResponseDTO> result = new ArrayList<>();
+        for (IPostReponseDTO post : list) {
+            Post dto = new Post();
+            dto.setId(post.getId());
+            dto.setDescription(post.getDescription());
+            dto.setLocation(post.getLocation());
+            dto.setType(post.getType());
+            dto.setStatus(post.getStatus());
+            if (post.getCreateUserID() != null) {
+                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
+            }
+            if (post.getReturnUserID() != null) {
+                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
+            }
+            dto.setName(post.getName());
+            Media media = mediaRepository.findById(post.getPostId()).get();
+            result.add(new PostResponseDTO(dto, media));
+        }
+        return result;
     }
 
     @Override
