@@ -59,7 +59,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User updateUser(int id, UserUpdateDTO userUpdateDTO) {
         if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id).get();
+            User user = userRepository.findById(id);
             user.setBirthday(userUpdateDTO.getBirthday());
             user.setEmail(userUpdateDTO.getEmail());
             user.setFirstName(userUpdateDTO.getFirstName());
@@ -83,7 +83,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User findUserById(int id) {
         if (userRepository.existsById(id)) {
-            return userRepository.findById(id).get();
+            return userRepository.findById(id);
         } else
             return null;
     }
@@ -91,7 +91,7 @@ public class UserServiceImp implements UserService {
     @Override
     public boolean deleteUserById(int id) {
         if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id).get();
+            User user = userRepository.findById(id);
             if (user.getRole() == 2) {
                 userRepository.updateStatusById(1, id);
                 return true;
@@ -126,7 +126,7 @@ public class UserServiceImp implements UserService {
     @Override
     public User setAdmin(int id) {
         if (userRepository.existsById(id)) {
-            User user = userRepository.findById(id).get();
+            User user = userRepository.findById(id);
             if (user.getStatus() != 0) {
                 return null;
             } else {

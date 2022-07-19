@@ -3,6 +3,7 @@ package com.swp391.lostandfound.controller;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.dataFormat.ListMedias;
+import com.swp391.lostandfound.dataFormat.ListPostResponeData;
 import com.swp391.lostandfound.dataFormat.ListPosts;
 import com.swp391.lostandfound.dataFormat.PostData;
 import com.swp391.lostandfound.service.MediaService;
@@ -31,8 +32,8 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    public ListPosts getAllPosts() {
-        ListPosts posts = new ListPosts();
+    public ListPostResponeData getAllPosts() {
+        ListPostResponeData posts = new ListPostResponeData();
         posts.setData(postService.getAllPosts());
         if (posts.getData().isEmpty()) {
             posts.setMessage("List is empty");
