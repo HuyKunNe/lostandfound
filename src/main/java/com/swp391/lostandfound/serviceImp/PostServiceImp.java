@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
-import com.swp391.lostandfound.DTO.responseDTO.IPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
 import com.swp391.lostandfound.entity.Media;
 import com.swp391.lostandfound.entity.Post;
@@ -38,24 +37,11 @@ public class PostServiceImp implements PostService {
 
     @Override
     public List<PostResponseDTO> getAllPosts() {
-        List<IPostReponseDTO> list = postRepository.getAllPostByStatusLessThan(2);
+        List<Post> list = postRepository.findPostByStatusLessThan(2);
         List<PostResponseDTO> result = new ArrayList<>();
-        for (IPostReponseDTO post : list) {
-            Post dto = new Post();
-            dto.setId(post.getId());
-            dto.setDescription(post.getDescription());
-            dto.setLocation(post.getLocation());
-            dto.setType(post.getType());
-            dto.setStatus(post.getStatus());
-            if (post.getCreateUserID() != null) {
-                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
-            }
-            if (post.getReturnUserID() != null) {
-                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
-            }
-            dto.setName(post.getName());
-            Media media = mediaRepository.findById(post.getPostId()).get();
-            result.add(new PostResponseDTO(dto, media));
+        for (Post post : list) {
+            Media media = mediaRepository.findFirstMediaByPostId(post.getId());
+            result.add(new PostResponseDTO(post, media));
         }
         return result;
     }
@@ -72,95 +58,43 @@ public class PostServiceImp implements PostService {
 
     @Override
     public List<PostResponseDTO> getAllConfirmedPosts() {
-        List<IPostReponseDTO> list = postRepository.getAllPostByStatus(1);
+        List<Post> list = postRepository.findPostByStatus(1);
         List<PostResponseDTO> result = new ArrayList<>();
-        for (IPostReponseDTO post : list) {
-            Post dto = new Post();
-            dto.setId(post.getId());
-            dto.setDescription(post.getDescription());
-            dto.setLocation(post.getLocation());
-            dto.setType(post.getType());
-            dto.setStatus(post.getStatus());
-            if (post.getCreateUserID() != null) {
-                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
-            }
-            if (post.getReturnUserID() != null) {
-                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
-            }
-            dto.setName(post.getName());
-            Media media = mediaRepository.findById(post.getPostId()).get();
-            result.add(new PostResponseDTO(dto, media));
+        for (Post post : list) {
+            Media media = mediaRepository.findFirstMediaByPostId(post.getId());
+            result.add(new PostResponseDTO(post, media));
         }
         return result;
     }
 
     public List<PostResponseDTO> getAllLostPosts() {
-        List<IPostReponseDTO> list = postRepository.getAllPostByTypeWithMedia(0, 0);
+        List<Post> list = postRepository.findPostByTypeAndStatus(1, 0);
         List<PostResponseDTO> result = new ArrayList<>();
-        for (IPostReponseDTO post : list) {
-            Post dto = new Post();
-            dto.setId(post.getId());
-            dto.setDescription(post.getDescription());
-            dto.setLocation(post.getLocation());
-            dto.setType(post.getType());
-            dto.setStatus(post.getStatus());
-            if (post.getCreateUserID() != null) {
-                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
-            }
-            if (post.getReturnUserID() != null) {
-                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
-            }
-            dto.setName(post.getName());
-            Media media = mediaRepository.findById(post.getPostId()).get();
-            result.add(new PostResponseDTO(dto, media));
+        for (Post post : list) {
+            Media media = mediaRepository.findFirstMediaByPostId(post.getId());
+            result.add(new PostResponseDTO(post, media));
         }
         return result;
     }
 
     @Override
     public List<PostResponseDTO> getAllFindPost() {
-        List<IPostReponseDTO> list = postRepository.getAllPostByTypeWithMedia(1, 0);
+        List<Post> list = postRepository.findPostByTypeAndStatus(0, 0);
         List<PostResponseDTO> result = new ArrayList<>();
-        for (IPostReponseDTO post : list) {
-            Post dto = new Post();
-            dto.setId(post.getId());
-            dto.setDescription(post.getDescription());
-            dto.setLocation(post.getLocation());
-            dto.setType(post.getType());
-            dto.setStatus(post.getStatus());
-            if (post.getCreateUserID() != null) {
-                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
-            }
-            if (post.getReturnUserID() != null) {
-                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
-            }
-            dto.setName(post.getName());
-            Media media = mediaRepository.findById(post.getPostId()).get();
-            result.add(new PostResponseDTO(dto, media));
+        for (Post post : list) {
+            Media media = mediaRepository.findFirstMediaByPostId(post.getId());
+            result.add(new PostResponseDTO(post, media));
         }
         return result;
     }
 
     @Override
     public List<PostResponseDTO> getALLNotConfirmedPosts() {
-        List<IPostReponseDTO> list = postRepository.getAllPostByStatus(0);
+        List<Post> list = postRepository.findPostByStatus(0);
         List<PostResponseDTO> result = new ArrayList<>();
-        for (IPostReponseDTO post : list) {
-            Post dto = new Post();
-            dto.setId(post.getId());
-            dto.setDescription(post.getDescription());
-            dto.setLocation(post.getLocation());
-            dto.setType(post.getType());
-            dto.setStatus(post.getStatus());
-            if (post.getCreateUserID() != null) {
-                dto.setUserCreate(userRepository.findById(post.getCreateUserID()).get());
-            }
-            if (post.getReturnUserID() != null) {
-                dto.setUserReturn(userRepository.findById(post.getReturnUserID()).get());
-            }
-            dto.setName(post.getName());
-            Media media = mediaRepository.findById(post.getPostId()).get();
-            result.add(new PostResponseDTO(dto, media));
+        for (Post post : list) {
+            Media media = mediaRepository.findFirstMediaByPostId(post.getId());
+            result.add(new PostResponseDTO(post, media));
         }
         return result;
     }

@@ -115,7 +115,7 @@ public class PostController {
     }
 
     @PutMapping("/post/edit/{id}")
-    public PostData updatePostByUser(@PathVariable int id, PostUpdateByUserDTO postUpdateDTO) {
+    public PostData updatePostByUser(@PathVariable(value = "id") int id, PostUpdateByUserDTO postUpdateDTO) {
         PostData post = new PostData();
         post.setPost(postService.updatePostByUser(id, postUpdateDTO));
         if (post.getPost() != null) {

@@ -19,6 +19,10 @@ public interface MediaRepository extends JpaRepository<Media, Integer> {
 
     List<Media> findMediaByPost(Post post);
 
+    Media findFirstMediaByPostId(int postId);
+
+    Media findMediaById(int id);
+
     @Modifying
     @Query("update Media set Status = ?1 where Id = ?2")
     Media updateStatusById(int status, int id);
