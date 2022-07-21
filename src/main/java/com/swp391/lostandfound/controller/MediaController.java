@@ -6,15 +6,7 @@ import com.swp391.lostandfound.dataFormat.ListMedias;
 import com.swp391.lostandfound.dataFormat.MediaData;
 import com.swp391.lostandfound.service.MediaService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -70,7 +62,7 @@ public class MediaController {
     }
 
     @PutMapping("/medias/edit/{id}")
-    public MediaData updateMedia(@PathVariable int id, @RequestBody MediaUpdateDTO mediaUpdateDTO) {
+    public MediaData updateMedia(@PathVariable int id,@RequestBody  MediaUpdateDTO mediaUpdateDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.updateMedia(id, mediaUpdateDTO));
         if (media.getMedia() != null) {

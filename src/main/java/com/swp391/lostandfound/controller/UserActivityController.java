@@ -62,8 +62,7 @@ public class UserActivityController {
     }
 
     @PutMapping("/userActivity/edit/{id}")
-    public UserActivityData updateUserActivity(@PathVariable int id,
-            @RequestBody UserActivityUpdateDTO userActivityUpdateDTO) {
+    public UserActivityData updateUserActivity(@PathVariable int id,@RequestBody  UserActivityUpdateDTO userActivityUpdateDTO) {
         var userActivityData = new UserActivityData();
         userActivityData.setUserActivity(userActivityService.updateUserActivity(id, userActivityUpdateDTO));
         if (userActivityData.getUserActivity() != null) {

@@ -7,15 +7,7 @@ import com.swp391.lostandfound.dataFormat.UserData;
 import com.swp391.lostandfound.entity.User;
 import com.swp391.lostandfound.service.UserService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -80,7 +72,7 @@ public class UserController {
     }
 
     @PutMapping("/user/edit/{id}")
-    public UserData updateUser(@PathVariable int id, @RequestBody UserUpdateDTO updateDTO) {
+    public UserData updateUser(@PathVariable int id,@RequestBody  UserUpdateDTO updateDTO) {
         UserData userData = new UserData();
         User user = userService.updateUser(id, updateDTO);
         if (user != null) {
@@ -125,7 +117,7 @@ public class UserController {
     }
 
     @GetMapping("/user/findByPhone")
-    public UserData findUserByPhone(@PathVariable String phoneNumber) {
+    public UserData findUserByPhone(String phoneNumber) {
         UserData userData = new UserData();
         User user = userService.findUserByPhone(phoneNumber);
         if (user != null) {
@@ -140,7 +132,7 @@ public class UserController {
     }
 
     @GetMapping("/user/findByEmail")
-    public UserData findUserByEmail(@PathVariable String email) {
+    public UserData findUserByEmail(String email) {
         UserData userData = new UserData();
         User user = userService.findUserByEmail(email);
         if (user != null) {
@@ -155,7 +147,7 @@ public class UserController {
     }
 
     @GetMapping("/user/findByStudentCode")
-    public UserData findUserByStudentCode(@PathVariable String studentCode) {
+    public UserData findUserByStudentCode(String studentCode) {
         UserData userData = new UserData();
         User user = userService.findUserByStudentCode(studentCode);
         if (user != null) {
@@ -170,7 +162,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public UserData Login(@PathVariable String studentCode, @PathVariable String password) {
+    public UserData Login(String studentCode, String password) {
         UserData userData = new UserData();
         User user = userService.findUserByStudentCodeandPassword(studentCode.toUpperCase(), password);
         if (user != null) {
