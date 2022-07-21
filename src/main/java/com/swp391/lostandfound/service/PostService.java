@@ -2,15 +2,17 @@ package com.swp391.lostandfound.service;
 
 import java.util.List;
 
+import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
 import com.swp391.lostandfound.entity.Post;
 
 public interface PostService {
     List<PostResponseDTO> getAllPosts();
 
-    Post addLostPost(PostAddDTO postAddDTO);
+    LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, ItemAddDTO itemAddDTO);
 
     Post addFindPost(PostAddDTO postAddDTO);
 

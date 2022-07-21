@@ -1,9 +1,13 @@
 package com.swp391.lostandfound.controller;
 
+import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.LostPostCreateDTO;
+import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.dataFormat.ListMedias;
 import com.swp391.lostandfound.dataFormat.ListPostResponeData;
+import com.swp391.lostandfound.dataFormat.LostPostReponseData;
 import com.swp391.lostandfound.dataFormat.PostData;
 import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
@@ -66,10 +70,10 @@ public class PostController {
     }
 
     @PostMapping("/post/addLostPost")
-    public PostData addLostPost(@RequestBody PostAddDTO postAddDTO) {
-        PostData post = new PostData();
-        post.setPost(postService.addLostPost(postAddDTO));
-        if (post.getPost() != null) {
+    public LostPostReponseData addLostPost(@RequestBody LostPostCreateDTO lostPostCreateDTO) {
+        LostPostReponseData post = new LostPostReponseData();
+        post.setData(postService.addLostPost(lostPostCreateDTO.getPostAddDto(), lostPostCreateDTO.getItemAddDto()));
+        if (post.getData() != null) {
             post.setMessage("Add post successfully");
             post.setStatus("Success");
         } else {
