@@ -2,7 +2,6 @@ package com.swp391.lostandfound.serviceImp;
 
 import java.util.List;
 
-import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.ItemUpdateDTO;
 import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.repository.ItemRepository;
@@ -28,27 +27,6 @@ public class ItemServiceImp implements ItemService {
     @Override
     public List<Item> getAllItems() {
         return itemRepository.findItemByStatus(0);
-    }
-
-    @Override
-    public Item addItem(ItemAddDTO itemAddDTO) {
-        Item item = new Item();
-        item.setName(itemAddDTO.getName());
-        item.setDescription(itemAddDTO.getDescription());
-        item.setLocation(itemAddDTO.getLocation());
-        item.setReceivedDate(itemAddDTO.getReceivedDate());
-        item.setReturnedDate(itemAddDTO.getReturnedDate());
-        item.setStatus(0);
-        if (postRepository.existsById(itemAddDTO.getPostId())) {
-            item.setPost(postRepository.findById(itemAddDTO.getPostId()).get());
-            if (typeRepository.existsById(itemAddDTO.getTypeId())) {
-                item.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
-                return itemRepository.save(item);
-            } else
-                return null;
-        } else
-            return null;
-
     }
 
     @Override
