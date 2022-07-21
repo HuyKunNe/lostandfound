@@ -1,10 +1,12 @@
 package com.swp391.lostandfound.DTO;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class MediaAddDTO {
 
-    private String link;
+    private List<String> link;
     private int postId;
 }

@@ -31,7 +31,7 @@ public class MediaServiceImp implements MediaService {
     @Override
     public Media addMedia(MediaAddDTO mediaAddDTO) {
         Media media = new Media();
-        media.setLink(mediaAddDTO.getLink());
+        media.setLink(mediaAddDTO.getLink().toString());
         media.setStatus(0);
         if (postRepository.existsById(mediaAddDTO.getPostId())) {
             Post post = postRepository.findById(mediaAddDTO.getPostId()).get();
@@ -46,7 +46,7 @@ public class MediaServiceImp implements MediaService {
     public Media updateMedia(int id, MediaUpdateDTO mediaUpdateDTO) {
         if (mediaRepository.existsById(id)) {
             Media media = mediaRepository.findById(id).get();
-            media.setLink(mediaUpdateDTO.getLink());
+            media.setLink(mediaUpdateDTO.getLink().toString());
             media.setStatus(mediaUpdateDTO.getStatus());
             if (postRepository.existsById(mediaUpdateDTO.getPostId())) {
                 Post post = postRepository.findById(mediaUpdateDTO.getPostId()).get();
