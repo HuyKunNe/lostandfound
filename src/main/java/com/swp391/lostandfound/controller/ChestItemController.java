@@ -6,15 +6,7 @@ import com.swp391.lostandfound.dataFormat.ChestItemData;
 import com.swp391.lostandfound.dataFormat.ListChestItems;
 import com.swp391.lostandfound.service.ChestItemService;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -70,7 +62,7 @@ public class ChestItemController {
     }
 
     @PutMapping("/chestItem/edit/{id}")
-    public ChestItemData updateChestItem(@PathVariable int id, @RequestBody ChestItemUpdateDTO chestItemUpdateDTO) {
+    public ChestItemData updateChestItem(@PathVariable int id,@RequestBody  ChestItemUpdateDTO chestItemUpdateDTO) {
         ChestItemData chestItemData = new ChestItemData();
         chestItemData.setChestItem(chestItemService.updateChestItem(id, chestItemUpdateDTO));
         if (chestItemData.getChestItem() != null) {
