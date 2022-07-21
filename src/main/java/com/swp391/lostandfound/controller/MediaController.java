@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,7 +56,7 @@ public class MediaController {
     }
 
     @PostMapping("/medias")
-    public MediaData addMedia(MediaAddDTO mediaAddDTO) {
+    public MediaData addMedia(@RequestBody MediaAddDTO mediaAddDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.addMedia(mediaAddDTO));
         if (media.getMedia() != null) {
@@ -69,7 +70,7 @@ public class MediaController {
     }
 
     @PutMapping("/medias/edit/{id}")
-    public MediaData updateMedia(@PathVariable int id, MediaUpdateDTO mediaUpdateDTO) {
+    public MediaData updateMedia(@PathVariable int id, @RequestBody MediaUpdateDTO mediaUpdateDTO) {
         MediaData media = new MediaData();
         media.setMedia(mediaService.updateMedia(id, mediaUpdateDTO));
         if (media.getMedia() != null) {

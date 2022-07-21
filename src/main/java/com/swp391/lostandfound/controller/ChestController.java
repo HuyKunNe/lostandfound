@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,7 +55,7 @@ public class ChestController {
     }
 
     @PostMapping("/chest")
-    public ChestData addChest(ChestAddDTO chest) {
+    public ChestData addChest(@RequestBody ChestAddDTO chest) {
         ChestData result = new ChestData();
         result.setChest(chestService.addChest(chest));
         result.setMessage("Create successfully");
@@ -63,7 +64,7 @@ public class ChestController {
     }
 
     @PutMapping("/chest/edit/{id}")
-    public ChestData editChestById(@PathVariable int id, ChestUpdateDTO dto) {
+    public ChestData editChestById(@PathVariable int id, @RequestBody ChestUpdateDTO dto) {
         ChestData result = new ChestData();
         Chest chest = chestService.updateChest(id, dto);
         if (chest != null) {

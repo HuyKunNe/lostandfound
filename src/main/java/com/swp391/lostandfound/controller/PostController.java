@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -73,7 +74,7 @@ public class PostController {
     }
 
     @PostMapping("/post/addLostPost")
-    public PostData addLostPost(PostAddDTO postAddDTO) {
+    public PostData addLostPost(@RequestBody PostAddDTO postAddDTO) {
         PostData post = new PostData();
         post.setPost(postService.addLostPost(postAddDTO));
         if (post.getPost() != null) {
@@ -87,7 +88,7 @@ public class PostController {
     }
 
     @PostMapping("/post/addFindPost")
-    public PostData addFindPost(PostAddDTO postAddDTO) {
+    public PostData addFindPost(@RequestBody PostAddDTO postAddDTO) {
         PostData post = new PostData();
         post.setPost(postService.addFindPost(postAddDTO));
         if (post.getPost() != null) {
@@ -115,7 +116,8 @@ public class PostController {
     }
 
     @PutMapping("/post/edit/{id}")
-    public PostData updatePostByUser(@PathVariable(value = "id") int id, PostUpdateByUserDTO postUpdateDTO) {
+    public PostData updatePostByUser(@PathVariable(value = "id") int id,
+            @RequestBody PostUpdateByUserDTO postUpdateDTO) {
         PostData post = new PostData();
         post.setPost(postService.updatePostByUser(id, postUpdateDTO));
         if (post.getPost() != null) {

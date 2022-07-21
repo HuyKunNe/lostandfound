@@ -48,7 +48,7 @@ public class UserActivityController {
     }
 
     @PostMapping("/userActivity")
-    public UserActivityData createUserActivity(UserActivityAddDTO userActivityAddDTO) {
+    public UserActivityData createUserActivity(@RequestBody UserActivityAddDTO userActivityAddDTO) {
         var userActivityData = new UserActivityData();
         userActivityData.setUserActivity(userActivityService.addUserActivity(userActivityAddDTO));
         if (userActivityData.getUserActivity() != null) {
@@ -62,7 +62,8 @@ public class UserActivityController {
     }
 
     @PutMapping("/userActivity/edit/{id}")
-    public UserActivityData updateUserActivity(@PathVariable int id, UserActivityUpdateDTO userActivityUpdateDTO) {
+    public UserActivityData updateUserActivity(@PathVariable int id,
+            @RequestBody UserActivityUpdateDTO userActivityUpdateDTO) {
         var userActivityData = new UserActivityData();
         userActivityData.setUserActivity(userActivityService.updateUserActivity(id, userActivityUpdateDTO));
         if (userActivityData.getUserActivity() != null) {
