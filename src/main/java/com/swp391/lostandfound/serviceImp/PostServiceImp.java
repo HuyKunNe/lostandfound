@@ -1,15 +1,22 @@
 package com.swp391.lostandfound.serviceImp;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
+import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.entity.Media;
 import com.swp391.lostandfound.entity.Post;
+import com.swp391.lostandfound.repository.ItemRepository;
 import com.swp391.lostandfound.repository.MediaRepository;
 import com.swp391.lostandfound.repository.PostRepository;
+import com.swp391.lostandfound.repository.TypeRepository;
 import com.swp391.lostandfound.repository.UserRepository;
 import com.swp391.lostandfound.service.PostService;
 
@@ -27,12 +34,16 @@ public class PostServiceImp implements PostService {
     private PostRepository postRepository;
     private UserRepository userRepository;
     private MediaRepository mediaRepository;
+    private TypeRepository typeRepository;
+    private ItemRepository itemRepository;
 
     public PostServiceImp(PostRepository postRepository, UserRepository userRepository,
-            MediaRepository mediaRepository) {
+            MediaRepository mediaRepository, TypeRepository typeRepository, ItemRepository itemRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
+        this.typeRepository = typeRepository;
+        this.itemRepository = itemRepository;
     }
 
     @Override
@@ -100,19 +111,36 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public Post addLostPost(PostAddDTO postAddDTO) {
+    public LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, ItemAddDTO itemAddDTO) {
         Post post = new Post();
         post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
         post.setLocation(postAddDTO.getLocation());
         post.setType(1);
         post.setStatus(0);
+
         if (userRepository.existsById(postAddDTO.getUserId())) {
             post.setUserReturn(userRepository.findById(postAddDTO.getUserId()));
-            return postRepository.save(post);
+            Post postResult = postRepository.save(post);
+
+            Item itemDTO = new Item();
+            itemDTO.setDescription(itemAddDTO.getDescription());
+            itemDTO.setLocation(itemAddDTO.getLocation());
+            itemDTO.setName(itemAddDTO.getName());
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            itemDTO.setReceivedDate(dtf.format(now));
+            if (typeRepository.existsById(itemAddDTO.getTypeId())) {
+                itemDTO.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
+                itemDTO.setPost(postResult);
+                Item itemResult = itemRepository.save(itemDTO);
+                return new LostPostReponseDTO(postResult, itemResult);
+            } else
+                return null;
         } else {
             return null;
         }
+
     }
 
     @Override
