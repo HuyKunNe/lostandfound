@@ -1,10 +1,8 @@
 package com.swp391.lostandfound.controller;
 
-import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostCreateDTO;
-import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.dataFormat.ListMedias;
 import com.swp391.lostandfound.dataFormat.ListPostResponeData;
 import com.swp391.lostandfound.dataFormat.LostPostReponseData;

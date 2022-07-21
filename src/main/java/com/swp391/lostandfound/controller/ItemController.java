@@ -1,6 +1,5 @@
 package com.swp391.lostandfound.controller;
 
-import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.ItemUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ItemData;
 import com.swp391.lostandfound.dataFormat.ListItems;
@@ -41,20 +40,6 @@ public class ItemController {
             item.setStatus("Success");
         } else {
             item.setMessage("Item is not exist");
-            item.setStatus("Fail");
-        }
-        return item;
-    }
-
-    @PostMapping("/item")
-    ItemData addItem(@RequestBody ItemAddDTO itemAddDTO) {
-        ItemData item = new ItemData();
-        item.setItem(itemService.addItem(itemAddDTO));
-        if (item.getItem() != null) {
-            item.setMessage("Add Item successfully");
-            item.setStatus("Success");
-        } else {
-            item.setMessage("Add Failed");
             item.setStatus("Fail");
         }
         return item;
