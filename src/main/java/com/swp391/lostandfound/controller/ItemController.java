@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,7 +55,7 @@ public class ItemController {
     }
 
     @PostMapping("/item")
-    ItemData addItem(ItemAddDTO itemAddDTO) {
+    ItemData addItem(@RequestBody ItemAddDTO itemAddDTO) {
         ItemData item = new ItemData();
         item.setItem(itemService.addItem(itemAddDTO));
         if (item.getItem() != null) {
@@ -68,7 +69,7 @@ public class ItemController {
     }
 
     @PutMapping("/item/edit/{id}")
-    ItemData updateItem(@PathVariable int id, ItemUpdateDTO itemUpdateDTO) {
+    ItemData updateItem(@PathVariable int id, @RequestBody ItemUpdateDTO itemUpdateDTO) {
         ItemData item = new ItemData();
         item.setItem(itemService.updateItem(id, itemUpdateDTO));
         if (item.getItem() != null) {

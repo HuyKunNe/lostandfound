@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,7 +56,7 @@ public class TypeController {
     }
 
     @PostMapping("/type")
-    public TypeData addType(TypeAddDTO typeAddDTO) {
+    public TypeData addType(@RequestBody TypeAddDTO typeAddDTO) {
         TypeData result = new TypeData();
         result.setType(typeService.addType(typeAddDTO));
         result.setMessage("Create successfully");
@@ -64,7 +65,7 @@ public class TypeController {
     }
 
     @PutMapping("/type/{id}")
-    public TypeData updateType(@PathVariable int id, TypeUpdateDTO typeUpdateDTO) {
+    public TypeData updateType(@PathVariable int id,@RequestBody TypeUpdateDTO typeUpdateDTO) {
         TypeData result = new TypeData();
         Type type = typeService.updateType(id, typeUpdateDTO);
         if (type != null) {
