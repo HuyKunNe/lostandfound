@@ -25,8 +25,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostServiceImp implements PostService {
 
-    // type = 0 -> lost post
-    // type = 1 -> find post
+    // type = 1 -> lost post
+    // type = 0 -> find post
     // status = 0 -> not found
     // status = 1 -> found
     // status = 2 -> is delete
@@ -115,6 +115,9 @@ public class PostServiceImp implements PostService {
         Post post = new Post();
         post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        post.setDateCreate(dtf.format(now));
         post.setLocation(postAddDTO.getLocation());
         post.setType(1);
         post.setStatus(0);
@@ -127,8 +130,6 @@ public class PostServiceImp implements PostService {
             itemDTO.setDescription(itemAddDTO.getDescription());
             itemDTO.setLocation(itemAddDTO.getLocation());
             itemDTO.setName(itemAddDTO.getName());
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
-            LocalDateTime now = LocalDateTime.now();
             itemDTO.setReceivedDate(dtf.format(now));
             if (typeRepository.existsById(itemAddDTO.getTypeId())) {
                 itemDTO.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
@@ -149,6 +150,9 @@ public class PostServiceImp implements PostService {
         post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
         post.setLocation(postAddDTO.getLocation());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        post.setDateCreate(dtf.format(now));
         post.setType(0);
         post.setStatus(0);
         if (userRepository.existsById(postAddDTO.getUserId())) {
