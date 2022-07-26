@@ -201,4 +201,18 @@ public class PostController {
         return post;
     }
 
+    @GetMapping("/post3DaysBefore")
+    public ListPostResponeData getAllPost3DaysBefore() {
+        ListPostResponeData posts = new ListPostResponeData();
+        posts.setData(postService.getAllPost3DaysBefore());
+        if (posts.getData().isEmpty()) {
+            posts.setMessage("List is empty");
+            posts.setStatus("Success");
+        } else {
+            posts.setMessage("Get all posts successfully");
+            posts.setStatus("Success");
+        }
+        return posts;
+    }
+
 }

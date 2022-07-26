@@ -32,5 +32,7 @@ public interface PostService {
 
     List<PostResponseDTO> getAllConfirmedPosts();
 
+    List<PostResponseDTO> getAllPost3DaysBefore();
+
     Post confirmFoundedPostByLostUser(int id, int lostUserId);
 }
