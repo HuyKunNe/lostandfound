@@ -204,4 +204,27 @@ public class PostServiceImp implements PostService {
         }
     }
 
+    @Override
+    public List<PostResponseDTO> getAllPost3DaysBefore() {
+        List<Post> list = postRepository.findPostByStatus(0);
+        List<Post> listPostResutl = new ArrayList<>();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime dateCompare = now.minusDays(3);
+        System.out.println(dateCompare.toString());
+        for (Post post : list) {
+            LocalDateTime postCreateDate = LocalDateTime.parse(post.getDateCreate(), dtf);
+            if (postCreateDate.isAfter(dateCompare)) {
+                listPostResutl.add(post);
+            }
+        }
+        List<PostResponseDTO> result = new ArrayList<>();
+        for (Post post : listPostResutl) {
+            Media media = mediaRepository.findFirstMediaByPostId(post.getId());
+            result.add(new PostResponseDTO(post, media));
+        }
+
+        return result;
+    }
+
 }
