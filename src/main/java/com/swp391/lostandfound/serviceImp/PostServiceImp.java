@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.swp391.lostandfound.DTO.ItemAddDTO;
+import com.swp391.lostandfound.DTO.MediaAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
@@ -13,11 +14,15 @@ import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
 import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.entity.Media;
 import com.swp391.lostandfound.entity.Post;
+import com.swp391.lostandfound.entity.User;
+import com.swp391.lostandfound.entity.UserActivity;
 import com.swp391.lostandfound.repository.ItemRepository;
 import com.swp391.lostandfound.repository.MediaRepository;
 import com.swp391.lostandfound.repository.PostRepository;
 import com.swp391.lostandfound.repository.TypeRepository;
+import com.swp391.lostandfound.repository.UserActivityRepository;
 import com.swp391.lostandfound.repository.UserRepository;
+import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
 
 import org.springframework.stereotype.Service;
@@ -36,14 +41,19 @@ public class PostServiceImp implements PostService {
     private MediaRepository mediaRepository;
     private TypeRepository typeRepository;
     private ItemRepository itemRepository;
+    private MediaService mediaService;
+    private UserActivityRepository userActivityRepository;
 
     public PostServiceImp(PostRepository postRepository, UserRepository userRepository,
-            MediaRepository mediaRepository, TypeRepository typeRepository, ItemRepository itemRepository) {
+            MediaRepository mediaRepository, TypeRepository typeRepository, ItemRepository itemRepository,
+            MediaService mediaService, UserActivityRepository userActivityRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
         this.typeRepository = typeRepository;
         this.itemRepository = itemRepository;
+        this.mediaService = mediaService;
+        this.userActivityRepository = userActivityRepository;
     }
 
     @Override
@@ -111,7 +121,7 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, ItemAddDTO itemAddDTO) {
+    public LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, List<ItemAddDTO> listItemAddDTO) {
         Post post = new Post();
         post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
@@ -126,18 +136,40 @@ public class PostServiceImp implements PostService {
             post.setUserReturn(userRepository.findById(postAddDTO.getUserId()));
             Post postResult = postRepository.save(post);
 
-            Item itemDTO = new Item();
-            itemDTO.setDescription(itemAddDTO.getDescription());
-            itemDTO.setLocation(itemAddDTO.getLocation());
-            itemDTO.setName(itemAddDTO.getName());
-            itemDTO.setReceivedDate(dtf.format(now));
-            if (typeRepository.existsById(itemAddDTO.getTypeId())) {
-                itemDTO.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
-                itemDTO.setPost(postResult);
-                Item itemResult = itemRepository.save(itemDTO);
-                return new LostPostReponseDTO(postResult, itemResult);
-            } else
+            LostPostReponseDTO result = new LostPostReponseDTO();
+
+            if (listItemAddDTO.size() > 0) {
+                List<Item> listItem = new ArrayList<>();
+                for (ItemAddDTO itemAddDTO : listItemAddDTO) {
+
+                    Item itemDTO = new Item();
+                    itemDTO.setDescription(itemAddDTO.getDescription());
+                    itemDTO.setLocation(itemAddDTO.getLocation());
+                    itemDTO.setName(itemAddDTO.getName());
+                    itemDTO.setReceivedDate(dtf.format(now));
+                    if (typeRepository.existsById(itemAddDTO.getTypeId())) {
+                        itemDTO.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
+                        itemDTO.setPost(postResult);
+                        Item itemResult = itemRepository.save(itemDTO);
+                        listItem.add(itemResult);
+                    }
+                }
+                result.setListItem(listItem);
+                result.setPost(postResult);
+                if (result != null) {
+                    UserActivity activity = new UserActivity();
+                    activity.setUser(userRepository.findById(postAddDTO.getUserId()));
+                    activity.setDate(dtf.format(now));
+                    activity.setStatus(0);
+                    activity.setType(1);
+                    activity.setPost(postResult);
+                    userActivityRepository.save(activity);
+                    return result;
+                } else
+                    return null;
+            } else {
                 return null;
+            }
         } else {
             return null;
         }
@@ -157,7 +189,16 @@ public class PostServiceImp implements PostService {
         post.setStatus(0);
         if (userRepository.existsById(postAddDTO.getUserId())) {
             post.setUserCreate(userRepository.findById(postAddDTO.getUserId()));
-            return postRepository.save(post);
+            Post postResult = postRepository.save(post);
+            User user = userRepository.findById(postAddDTO.getUserId());
+            UserActivity activity = new UserActivity();
+            activity.setUser(user);
+            activity.setDate(dtf.format(now));
+            activity.setStatus(0);
+            activity.setType(0);
+            activity.setPost(postResult);
+            userActivityRepository.save(activity);
+            return postResult;
         } else {
             return null;
         }
@@ -178,12 +219,27 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public Post confirmFoundedPostByAdmin(int id, int returnUserId) {
+    public Post confirmFoundedPostByAdmin(int id, int returnUserId, MediaAddDTO media) {
         if (postRepository.existsById(id)) {
             Post post = postRepository.findById(id).get();
-            post.setUserReturn(userRepository.findById(returnUserId));
-            post.setStatus(1);
-            return postRepository.save(post);
+            if (userRepository.existsById(returnUserId)) {
+                post.setUserReturn(userRepository.findById(returnUserId));
+                post.setStatus(1);
+                mediaService.addMedia(media);
+                Post postResult = postRepository.save(post);
+                UserActivity activity = new UserActivity();
+                activity.setUser(userRepository.findById(returnUserId));
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+                activity.setDate(dtf.format(now));
+                activity.setStatus(0);
+                activity.setType(2);
+                activity.setPost(postResult);
+                userActivityRepository.save(activity);
+                return postResult;
+            } else {
+                return null;
+            }
         } else {
             return null;
         }

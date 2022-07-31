@@ -2,7 +2,6 @@ package com.swp391.lostandfound.serviceImp;
 
 import java.util.List;
 
-import com.swp391.lostandfound.DTO.UserActivityAddDTO;
 import com.swp391.lostandfound.DTO.UserActivityUpdateDTO;
 import com.swp391.lostandfound.entity.UserActivity;
 import com.swp391.lostandfound.repository.PostRepository;
@@ -14,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserActivityServiceImp implements UserActivityService {
+
+    // type = 0 create Post
+    // Type = 1 bring items to AdminRoom
+    // type = 2 receive item from AdminRoom
 
     private UserActivityRepository userActivityRepository;
     private UserRepository userRepository;
@@ -48,24 +51,6 @@ public class UserActivityServiceImp implements UserActivityService {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public UserActivity addUserActivity(UserActivityAddDTO userActivityAddDTO) {
-        var userActivity = new UserActivity();
-        userActivity.setDate(userActivityAddDTO.getDate());
-        userActivity.setType(userActivityAddDTO.getType());
-        userActivity.setStatus(0);
-        if (userRepository.existsById(userActivityAddDTO.getUserId())) {
-            userActivity.setUser(userRepository.findById(userActivityAddDTO.getUserId()));
-            if (postRepository.existsById(userActivityAddDTO.getPostId())) {
-                userActivity.setPost(postRepository.findById(userActivityAddDTO.getPostId()).get());
-                return userActivityRepository.save(userActivity);
-            } else {
-                return null;
-            }
-        } else
-            return null;
     }
 
     @Override
