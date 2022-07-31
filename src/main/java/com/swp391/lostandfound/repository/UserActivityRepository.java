@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 public interface UserActivityRepository extends JpaRepository<UserActivity, Integer> {
+
     List<UserActivity> findByStatus(int status);
 
     @Modifying

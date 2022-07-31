@@ -1,6 +1,5 @@
 package com.swp391.lostandfound.controller;
 
-import com.swp391.lostandfound.DTO.UserActivityAddDTO;
 import com.swp391.lostandfound.DTO.UserActivityUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ListUserActivity;
 import com.swp391.lostandfound.dataFormat.UserActivityData;
@@ -42,20 +41,6 @@ public class UserActivityController {
             userActivityData.setStatus("Success");
         } else {
             userActivityData.setMessage("User activity does not exist");
-            userActivityData.setStatus("Fail");
-        }
-        return userActivityData;
-    }
-
-    @PostMapping("/userActivity")
-    public UserActivityData createUserActivity(@RequestBody UserActivityAddDTO userActivityAddDTO) {
-        var userActivityData = new UserActivityData();
-        userActivityData.setUserActivity(userActivityService.addUserActivity(userActivityAddDTO));
-        if (userActivityData.getUserActivity() != null) {
-            userActivityData.setMessage("create user activity successfully");
-            userActivityData.setStatus("Success");
-        } else {
-            userActivityData.setMessage("create user activity Fail");
             userActivityData.setStatus("Fail");
         }
         return userActivityData;

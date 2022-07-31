@@ -1,5 +1,6 @@
 package com.swp391.lostandfound.controller;
 
+import com.swp391.lostandfound.DTO.MediaAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostCreateDTO;
@@ -96,9 +97,10 @@ public class PostController {
     }
 
     @PutMapping("/post/{id}")
-    public PostData confirmFoundedPostByAdmin(@PathVariable int id, int returnUserId) {
+    public PostData confirmFoundedPostByAdmin(@PathVariable int id, int returnUserId,
+            @RequestBody MediaAddDTO mediaAddDTO) {
         PostData post = new PostData();
-        post.setPost(postService.confirmFoundedPostByAdmin(id, returnUserId));
+        post.setPost(postService.confirmFoundedPostByAdmin(id, returnUserId, mediaAddDTO));
         if (post.getPost() != null) {
             post.setMessage("Confirm successfully");
             post.setStatus("Success");

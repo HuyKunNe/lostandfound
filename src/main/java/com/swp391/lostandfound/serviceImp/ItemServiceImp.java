@@ -2,6 +2,7 @@ package com.swp391.lostandfound.serviceImp;
 
 import java.util.List;
 
+import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.ItemUpdateDTO;
 import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.repository.ItemRepository;
@@ -69,6 +70,12 @@ public class ItemServiceImp implements ItemService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public Item addItem(ItemAddDTO item) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
