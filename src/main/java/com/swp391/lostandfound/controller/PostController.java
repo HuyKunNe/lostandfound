@@ -79,7 +79,8 @@ public class PostController {
     @PostMapping("/post/addLostPost")
     public LostPostReponseData addLostPost(@RequestBody LostPostCreateDTO lostPostCreateDTO) {
         LostPostReponseData post = new LostPostReponseData();
-        post.setData(postService.addLostPost(lostPostCreateDTO.getPostAddDto(), lostPostCreateDTO.getItemAddDto()));
+        post.setData(postService.addLostPost(lostPostCreateDTO.getPostAddDto(), lostPostCreateDTO.getItemAddDto(),
+                lostPostCreateDTO.getChestId()));
         if (post.getData() != null) {
             post.setMessage("Add post successfully");
             post.setStatus("Success");

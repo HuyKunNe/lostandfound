@@ -13,7 +13,7 @@ import com.swp391.lostandfound.entity.Post;
 public interface PostService {
     List<PostResponseDTO> getAllPosts();
 
-    LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, List<ItemAddDTO> itemAddDTO);
+    LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, List<ItemAddDTO> itemAddDTO, int chestId);
 
     Post addFindPost(PostAddDTO postAddDTO);
 

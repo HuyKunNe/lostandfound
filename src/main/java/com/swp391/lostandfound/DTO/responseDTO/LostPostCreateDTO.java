@@ -12,10 +12,12 @@ public class LostPostCreateDTO {
 
     private PostAddDTO postAddDto;
     private List<ItemAddDTO> itemAddDto;
+    private int chestId;
 
-    public LostPostCreateDTO(PostAddDTO postAddDto, List<ItemAddDTO> itemAddDto) {
+    public LostPostCreateDTO(PostAddDTO postAddDto, List<ItemAddDTO> itemAddDto, int chestId) {
         this.postAddDto = postAddDto;
         this.itemAddDto = itemAddDto;
+        this.chestId = chestId;
     }
 
 }

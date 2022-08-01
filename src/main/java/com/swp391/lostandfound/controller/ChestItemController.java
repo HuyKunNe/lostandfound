@@ -1,6 +1,5 @@
 package com.swp391.lostandfound.controller;
 
-import com.swp391.lostandfound.DTO.ChestItemAddDTO;
 import com.swp391.lostandfound.DTO.ChestItemUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ChestItemData;
 import com.swp391.lostandfound.dataFormat.ListChestItems;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,20 +48,6 @@ public class ChestItemController {
             chestItemData.setStatus("Success");
         } else {
             chestItemData.setMessage("ChestItem does not exist");
-            chestItemData.setStatus("Fail");
-        }
-        return chestItemData;
-    }
-
-    @PostMapping("/chestItem")
-    public ChestItemData createChestItem(@RequestBody ChestItemAddDTO chestItemAddDTO) {
-        ChestItemData chestItemData = new ChestItemData();
-        chestItemData.setChestItem(chestItemService.addChestItem(chestItemAddDTO));
-        if (chestItemData.getChestItem() != null) {
-            chestItemData.setMessage("create Chest Item successfully");
-            chestItemData.setStatus("Success");
-        } else {
-            chestItemData.setMessage("create Chest Item Fail");
             chestItemData.setStatus("Fail");
         }
         return chestItemData;

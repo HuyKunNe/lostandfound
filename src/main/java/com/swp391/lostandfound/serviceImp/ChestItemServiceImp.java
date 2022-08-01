@@ -1,10 +1,13 @@
 package com.swp391.lostandfound.serviceImp;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.swp391.lostandfound.DTO.ChestItemAddDTO;
 import com.swp391.lostandfound.DTO.ChestItemUpdateDTO;
+import com.swp391.lostandfound.entity.Chest;
 import com.swp391.lostandfound.entity.ChestItem;
+import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.repository.ChestItemRepository;
 import com.swp391.lostandfound.repository.ChestRepository;
 import com.swp391.lostandfound.repository.ItemRepository;
@@ -32,22 +35,22 @@ public class ChestItemServiceImp implements ChestItemService {
     }
 
     @Override
-    public ChestItem addChestItem(ChestItemAddDTO chestItemAddDTO) {
+    public boolean addChestItem(Chest chest, List<Item> listItems) {
         ChestItem chestItem = new ChestItem();
-        chestItem.setFromDate(chestItemAddDTO.getFromDate());
-        chestItem.setToDate(chestItemAddDTO.getToDate());
-        chestItem.setSlot(chestItemAddDTO.getSlot());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        chestItem.setFromDate(dtf.format(now.plusHours(7)));
+        chestItem.setSlot(listItems.size());
         chestItem.setStatus(0);
-        if (chestRepository.existsById(chestItemAddDTO.getChestId())) {
-            chestItem.setChest(chestRepository.findById(chestItemAddDTO.getChestId()).get());
-            if (itemRepository.existsById(chestItemAddDTO.getItemId())) {
-                chestItem.setItem(itemRepository.findById(chestItemAddDTO.getItemId()).get());
-                return chestItemRepository.save(chestItem);
-            } else {
-                return null;
+        if (chest != null) {
+            chestItem.setChest(chest);
+            for (Item item : listItems) {
+                chestItem.setItem(item);
+                chestItemRepository.save(chestItem);
             }
+            return true;
         } else
-            return null;
+            return false;
 
     }
 
