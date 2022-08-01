@@ -11,6 +11,7 @@ import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
+import com.swp391.lostandfound.entity.Chest;
 import com.swp391.lostandfound.entity.ChestItem;
 import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.entity.Media;
@@ -18,6 +19,7 @@ import com.swp391.lostandfound.entity.Post;
 import com.swp391.lostandfound.entity.User;
 import com.swp391.lostandfound.entity.UserActivity;
 import com.swp391.lostandfound.repository.ChestItemRepository;
+import com.swp391.lostandfound.repository.ChestRepository;
 import com.swp391.lostandfound.repository.ItemRepository;
 import com.swp391.lostandfound.repository.MediaRepository;
 import com.swp391.lostandfound.repository.PostRepository;
@@ -49,12 +51,14 @@ public class PostServiceImp implements PostService {
     private UserActivityRepository userActivityRepository;
     private ChestService chestService;
     private ChestItemRepository chestItemRepository;
+    private ChestRepository chestRepository;
     private ChestItemService chestItemService;
 
     public PostServiceImp(PostRepository postRepository, UserRepository userRepository,
             MediaRepository mediaRepository, TypeRepository typeRepository, ItemRepository itemRepository,
             MediaService mediaService, UserActivityRepository userActivityRepository, ChestService chestService,
-            ChestItemRepository chestItemRepository, ChestItemService chestItemService) {
+            ChestItemRepository chestItemRepository, ChestItemService chestItemService,
+            ChestRepository chestRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
@@ -65,6 +69,8 @@ public class PostServiceImp implements PostService {
         this.chestService = chestService;
         this.chestItemRepository = chestItemRepository;
         this.chestItemService = chestItemService;
+        this.chestRepository = chestRepository;
+
     }
 
     @Override
@@ -144,6 +150,8 @@ public class PostServiceImp implements PostService {
         post.setType(1);
         post.setStatus(0);
 
+        Chest chestResult = chestRepository.findById(chestId).get();
+
         if (userRepository.existsById(postAddDTO.getUserId())) {
             post.setUserReturn(userRepository.findById(postAddDTO.getUserId()));
             Post postResult = postRepository.save(post);
@@ -152,6 +160,7 @@ public class PostServiceImp implements PostService {
 
             if (listItemAddDTO.size() > 0) {
                 List<Item> listItem = new ArrayList<>();
+                int slot = 1;
                 for (ItemAddDTO itemAddDTO : listItemAddDTO) {
 
                     Item itemDTO = new Item();
@@ -163,11 +172,16 @@ public class PostServiceImp implements PostService {
                         itemDTO.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
                         itemDTO.setPost(postResult);
                         Item itemResult = itemRepository.save(itemDTO);
+
+                        chestItemService.addChestItem(chestResult, itemResult, slot);
+                        slot++;
                         listItem.add(itemResult);
                     }
                 }
+
                 result.setListItem(listItem);
                 result.setPost(postResult);
+
                 if (result != null) {
                     UserActivity activity = new UserActivity();
                     activity.setUser(userRepository.findById(postAddDTO.getUserId()));
@@ -177,7 +191,7 @@ public class PostServiceImp implements PostService {
                     activity.setPost(postResult);
                     userActivityRepository.save(activity);
                     chestService.updateStatusById(chestId, 2);
-                    chestItemService.addChestItem(chestService.findChestById(chestId), listItem);
+
                     return result;
                 } else
                     return null;
