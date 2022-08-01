@@ -64,4 +64,9 @@ public class ChestServiceImp implements ChestService {
         return false;
     }
 
+    @Override
+    public List<Chest> getAllChestsAvailable() {
+        return chestRepository.findChestByStatus(2);
+    }
+
 }

@@ -17,4 +17,7 @@ public interface ChestService {
     Chest findChestById(int id);
 
     boolean deleteChestById(int id);
+
+    List<Chest> getAllChestsAvailable();
+
 }
