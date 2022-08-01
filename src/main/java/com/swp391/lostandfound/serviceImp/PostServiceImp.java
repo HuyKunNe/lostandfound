@@ -250,9 +250,11 @@ public class PostServiceImp implements PostService {
                 activity.setType(2);
                 activity.setPost(postResult);
                 userActivityRepository.save(activity);
-                Item item = itemRepository.findItemByPostId(post.getId());
+
+                Item item = itemRepository.findFirstItemByPostId(post.getId());
                 ChestItem chestItem = chestItemRepository.findChestItemByItem(item);
                 chestService.updateStatusById(chestItem.getChest().getId(), 0);
+
                 return postResult;
             } else {
                 return null;
