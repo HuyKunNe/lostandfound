@@ -21,7 +21,7 @@ public class ChestServiceImp implements ChestService {
 
     @Override
     public List<Chest> getAllChests() {
-        return chestRepository.findChestByStatus(0);
+        return chestRepository.findAll();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ChestServiceImp implements ChestService {
 
     @Override
     public List<Chest> getAllChestsAvailable() {
-        return chestRepository.findChestByStatus(2);
+        return chestRepository.findChestByStatus(0);
     }
 
     @Override
