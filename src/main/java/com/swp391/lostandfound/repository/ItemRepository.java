@@ -13,9 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface ItemRepository extends JpaRepository<Item, Integer> {
+
     List<Item> findItemByStatus(int status);
 
-    Item findItemByPostId(int postId);
+    Item findFirstItemByPostId(int postId);
 
     @Modifying
     @Query("update Item set status = ?1 where id = ?2")
