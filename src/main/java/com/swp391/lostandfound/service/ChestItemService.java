@@ -9,7 +9,7 @@ import com.swp391.lostandfound.entity.Item;
 public interface ChestItemService {
     List<ChestItem> getAllChestItems();
 
-    boolean addChestItem(Chest chest, List<Item> item);
+    ChestItem addChestItem(Chest chest, Item item, int slot);
 
     ChestItem updateChestItem(int id, ChestItemUpdateDTO chestItemUpdateDTO);
 

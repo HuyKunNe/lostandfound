@@ -35,23 +35,17 @@ public class ChestItemServiceImp implements ChestItemService {
     }
 
     @Override
-    public boolean addChestItem(Chest chest, List<Item> listItems) {
+    public ChestItem addChestItem(Chest chest, Item item, int slot) {
         ChestItem chestItem = new ChestItem();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        chestItem.setFromDate(dtf.format(now.plusHours(7)));
-        chestItem.setSlot(listItems.size());
-        chestItem.setStatus(0);
-        if (chest != null) {
-            chestItem.setChest(chest);
-            for (Item item : listItems) {
-                chestItem.setItem(item);
-                chestItemRepository.save(chestItem);
-            }
-            return true;
-        } else
-            return false;
 
+        chestItem.setFromDate(dtf.format(now.plusHours(7)));
+        chestItem.setSlot(slot);
+        chestItem.setStatus(0);
+        chestItem.setChest(chest);
+        chestItem.setItem(item);
+        return chestItemRepository.save(chestItem);
     }
 
     @Override
