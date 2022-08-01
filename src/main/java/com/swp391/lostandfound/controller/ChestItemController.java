@@ -1,6 +1,5 @@
 package com.swp391.lostandfound.controller;
 
-import com.swp391.lostandfound.DTO.ChestItemAddDTO;
 import com.swp391.lostandfound.DTO.ChestItemUpdateDTO;
 import com.swp391.lostandfound.dataFormat.ChestItemData;
 import com.swp391.lostandfound.dataFormat.ListChestItems;
@@ -42,20 +41,6 @@ public class ChestItemController {
             chestItemData.setStatus("Success");
         } else {
             chestItemData.setMessage("ChestItem does not exist");
-            chestItemData.setStatus("Fail");
-        }
-        return chestItemData;
-    }
-
-    @PostMapping("/chestItem")
-    public ChestItemData createChestItem(@RequestBody ChestItemAddDTO chestItemAddDTO) {
-        ChestItemData chestItemData = new ChestItemData();
-        chestItemData.setChestItem(chestItemService.addChestItem(chestItemAddDTO));
-        if (chestItemData.getChestItem() != null) {
-            chestItemData.setMessage("create Chest Item successfully");
-            chestItemData.setStatus("Success");
-        } else {
-            chestItemData.setMessage("create Chest Item Fail");
             chestItemData.setStatus("Fail");
         }
         return chestItemData;

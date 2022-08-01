@@ -69,4 +69,15 @@ public class ChestServiceImp implements ChestService {
         return chestRepository.findChestByStatus(2);
     }
 
+    @Override
+    public boolean updateStatusById(int id, int status) {
+        if (chestRepository.existsById(id)) {
+            Chest chest = chestRepository.findById(id).get();
+            chest.setStatus(status);
+            chestRepository.save(chest);
+            return true;
+        } else
+            return false;
+    }
+
 }

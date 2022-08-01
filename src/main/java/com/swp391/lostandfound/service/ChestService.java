@@ -20,4 +20,6 @@ public interface ChestService {
 
     List<Chest> getAllChestsAvailable();
 
+    boolean updateStatusById(int id, int status);
+
 }

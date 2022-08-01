@@ -11,17 +11,21 @@ import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
+import com.swp391.lostandfound.entity.ChestItem;
 import com.swp391.lostandfound.entity.Item;
 import com.swp391.lostandfound.entity.Media;
 import com.swp391.lostandfound.entity.Post;
 import com.swp391.lostandfound.entity.User;
 import com.swp391.lostandfound.entity.UserActivity;
+import com.swp391.lostandfound.repository.ChestItemRepository;
 import com.swp391.lostandfound.repository.ItemRepository;
 import com.swp391.lostandfound.repository.MediaRepository;
 import com.swp391.lostandfound.repository.PostRepository;
 import com.swp391.lostandfound.repository.TypeRepository;
 import com.swp391.lostandfound.repository.UserActivityRepository;
 import com.swp391.lostandfound.repository.UserRepository;
+import com.swp391.lostandfound.service.ChestItemService;
+import com.swp391.lostandfound.service.ChestService;
 import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
 
@@ -43,10 +47,14 @@ public class PostServiceImp implements PostService {
     private ItemRepository itemRepository;
     private MediaService mediaService;
     private UserActivityRepository userActivityRepository;
+    private ChestService chestService;
+    private ChestItemRepository chestItemRepository;
+    private ChestItemService chestItemService;
 
     public PostServiceImp(PostRepository postRepository, UserRepository userRepository,
             MediaRepository mediaRepository, TypeRepository typeRepository, ItemRepository itemRepository,
-            MediaService mediaService, UserActivityRepository userActivityRepository) {
+            MediaService mediaService, UserActivityRepository userActivityRepository, ChestService chestService,
+            ChestItemRepository chestItemRepository, ChestItemService chestItemService) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
@@ -54,6 +62,9 @@ public class PostServiceImp implements PostService {
         this.itemRepository = itemRepository;
         this.mediaService = mediaService;
         this.userActivityRepository = userActivityRepository;
+        this.chestService = chestService;
+        this.chestItemRepository = chestItemRepository;
+        this.chestItemService = chestItemService;
     }
 
     @Override
@@ -121,7 +132,7 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, List<ItemAddDTO> listItemAddDTO) {
+    public LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, List<ItemAddDTO> listItemAddDTO, int chestId) {
 
         Post post = new Post();
         post.setName(postAddDTO.getName());
@@ -165,6 +176,8 @@ public class PostServiceImp implements PostService {
                     activity.setType(1);
                     activity.setPost(postResult);
                     userActivityRepository.save(activity);
+                    chestService.updateStatusById(chestId, 2);
+                    chestItemService.addChestItem(chestService.findChestById(chestId), listItem);
                     return result;
                 } else
                     return null;
@@ -237,6 +250,9 @@ public class PostServiceImp implements PostService {
                 activity.setType(2);
                 activity.setPost(postResult);
                 userActivityRepository.save(activity);
+                Item item = itemRepository.findItemByPostId(post.getId());
+                ChestItem chestItem = chestItemRepository.findChestItemByItem(item);
+                chestService.updateStatusById(chestItem.getChest().getId(), 0);
                 return postResult;
             } else {
                 return null;
