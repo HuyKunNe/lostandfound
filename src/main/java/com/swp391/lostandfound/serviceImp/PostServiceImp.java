@@ -122,12 +122,13 @@ public class PostServiceImp implements PostService {
 
     @Override
     public LostPostReponseDTO addLostPost(PostAddDTO postAddDTO, List<ItemAddDTO> listItemAddDTO) {
+
         Post post = new Post();
         post.setName(postAddDTO.getName());
         post.setDescription(postAddDTO.getDescription());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        post.setDateCreate(dtf.format(now));
+        post.setDateCreate(dtf.format(now.plusHours(7)));
         post.setLocation(postAddDTO.getLocation());
         post.setType(1);
         post.setStatus(0);
@@ -146,7 +147,7 @@ public class PostServiceImp implements PostService {
                     itemDTO.setDescription(itemAddDTO.getDescription());
                     itemDTO.setLocation(itemAddDTO.getLocation());
                     itemDTO.setName(itemAddDTO.getName());
-                    itemDTO.setReceivedDate(dtf.format(now));
+                    itemDTO.setReceivedDate(dtf.format(now.plusHours(7)));
                     if (typeRepository.existsById(itemAddDTO.getTypeId())) {
                         itemDTO.setType(typeRepository.findById(itemAddDTO.getTypeId()).get());
                         itemDTO.setPost(postResult);
@@ -159,7 +160,7 @@ public class PostServiceImp implements PostService {
                 if (result != null) {
                     UserActivity activity = new UserActivity();
                     activity.setUser(userRepository.findById(postAddDTO.getUserId()));
-                    activity.setDate(dtf.format(now));
+                    activity.setDate(dtf.format(now.plusHours(7)));
                     activity.setStatus(0);
                     activity.setType(1);
                     activity.setPost(postResult);
@@ -184,7 +185,7 @@ public class PostServiceImp implements PostService {
         post.setLocation(postAddDTO.getLocation());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        post.setDateCreate(dtf.format(now));
+        post.setDateCreate(dtf.format(now.plusHours(7)));
         post.setType(0);
         post.setStatus(0);
         if (userRepository.existsById(postAddDTO.getUserId())) {
@@ -231,7 +232,7 @@ public class PostServiceImp implements PostService {
                 activity.setUser(userRepository.findById(returnUserId));
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
                 LocalDateTime now = LocalDateTime.now();
-                activity.setDate(dtf.format(now));
+                activity.setDate(dtf.format(now.plusHours(7)));
                 activity.setStatus(0);
                 activity.setType(2);
                 activity.setPost(postResult);
@@ -267,10 +268,9 @@ public class PostServiceImp implements PostService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime dateCompare = now.minusDays(3);
-        System.out.println(dateCompare.toString());
         for (Post post : list) {
             LocalDateTime postCreateDate = LocalDateTime.parse(post.getDateCreate(), dtf);
-            if (postCreateDate.isAfter(dateCompare)) {
+            if (postCreateDate.isBefore(dateCompare)) {
                 listPostResutl.add(post);
             }
         }

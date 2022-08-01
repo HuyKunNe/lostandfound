@@ -90,4 +90,18 @@ public class ChestController {
         }
         return result;
     }
+
+    @GetMapping("/chestAvailable")
+    public ListChests getAllChestsAvailable() {
+        ListChests chests = new ListChests();
+        chests.setData(chestService.getAllChestsAvailable());
+        if (chests.getData().isEmpty()) {
+            chests.setMessage("List is empty");
+        } else {
+            chests.setMessage("Get all enable chests successfully");
+        }
+        chests.setStatus("Success");
+        return chests;
+    }
+
 }
