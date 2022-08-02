@@ -18,6 +18,7 @@ public class GetPostByIDResponse {
     private int status;
     private int type;
     private String chestName;
+    private User userCreate;
     private User userReturn;
 
     public GetPostByIDResponse(Post post){
@@ -28,6 +29,7 @@ public class GetPostByIDResponse {
         this.description = post.getDescription();
         this.status = post.getStatus();
         this.type = post.getType();
+        this.userCreate = post.getUserCreate();
         this.userReturn = post.getUserReturn();
     }
 }
