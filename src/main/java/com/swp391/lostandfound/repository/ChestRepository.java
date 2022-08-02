@@ -20,4 +20,7 @@ public interface ChestRepository extends JpaRepository<Chest, Integer> {
     @Modifying
     @Query("update Chest c set c.status=?1 where c.id=?2")
     void setFixedStatusFor(int status, int id);
+
+    @Query("select c.name from Chest c where c.id in (select ci.chest.id from ChestItem ci where ci.item.id = ?1)")
+    String getChestNameByPostID(int id);
 }

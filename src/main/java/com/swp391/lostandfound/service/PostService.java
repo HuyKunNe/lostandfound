@@ -6,6 +6,7 @@ import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.MediaAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.GetPostByIDResponse;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
 import com.swp391.lostandfound.entity.Post;
@@ -21,7 +22,7 @@ public interface PostService {
 
     Post confirmFoundedPostByAdmin(int id, int returnUserId, MediaAddDTO media);
 
-    Post findPostById(int id);
+    GetPostByIDResponse findPostById(int id);
 
     boolean deletePostById(int id);
 

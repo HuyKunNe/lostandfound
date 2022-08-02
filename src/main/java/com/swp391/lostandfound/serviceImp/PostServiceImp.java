@@ -9,6 +9,7 @@ import com.swp391.lostandfound.DTO.ItemAddDTO;
 import com.swp391.lostandfound.DTO.MediaAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.GetPostByIDResponse;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostReponseDTO;
 import com.swp391.lostandfound.DTO.responseDTO.PostResponseDTO;
 import com.swp391.lostandfound.entity.Chest;
@@ -285,9 +286,15 @@ public class PostServiceImp implements PostService {
     }
 
     @Override
-    public Post findPostById(int id) {
+    public GetPostByIDResponse findPostById(int id) {
         if (postRepository.existsById(id)) {
-            return postRepository.findById(id).get();
+            Post postOptional = postRepository.findById(id).get();
+            GetPostByIDResponse getPostByIDResponse = new GetPostByIDResponse(postOptional);
+            System.out.println("ID request "+ id);
+            String chestName = chestRepository.getChestNameByPostID(id);
+            getPostByIDResponse.setChestName(chestName);
+
+            return getPostByIDResponse;
         } else {
             return null;
         }

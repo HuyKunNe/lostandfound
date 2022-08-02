@@ -3,11 +3,9 @@ package com.swp391.lostandfound.controller;
 import com.swp391.lostandfound.DTO.MediaAddDTO;
 import com.swp391.lostandfound.DTO.PostAddDTO;
 import com.swp391.lostandfound.DTO.PostUpdateByUserDTO;
+import com.swp391.lostandfound.DTO.responseDTO.GetPostByIDResponse;
 import com.swp391.lostandfound.DTO.responseDTO.LostPostCreateDTO;
-import com.swp391.lostandfound.dataFormat.ListMedias;
-import com.swp391.lostandfound.dataFormat.ListPostResponeData;
-import com.swp391.lostandfound.dataFormat.LostPostReponseData;
-import com.swp391.lostandfound.dataFormat.PostData;
+import com.swp391.lostandfound.dataFormat.*;
 import com.swp391.lostandfound.service.MediaService;
 import com.swp391.lostandfound.service.PostService;
 
@@ -41,8 +39,8 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public PostData getPostById(@PathVariable int id) {
-        PostData post = new PostData();
+    public PostDataGetByID getPostById(@PathVariable int id) {
+        PostDataGetByID post = new PostDataGetByID();
         post.setPost(postService.findPostById(id));
         if (post.getPost() != null) {
             post.setMessage("Find post successfully");
