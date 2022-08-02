@@ -289,10 +289,12 @@ public class PostServiceImp implements PostService {
     public GetPostByIDResponse findPostById(int id) {
         if (postRepository.existsById(id)) {
             Post postOptional = postRepository.findById(id).get();
+            Item item = itemRepository.findFirstItemByPostId(id);
             GetPostByIDResponse getPostByIDResponse = new GetPostByIDResponse(postOptional);
-            System.out.println("ID request "+ id);
-            String chestName = chestRepository.getChestNameByPostID(id);
-            getPostByIDResponse.setChestName(chestName);
+            if(item != null){
+                String chestName = chestRepository.getChestNameByPostID(item.getId());
+                getPostByIDResponse.setChestName(chestName);
+            }
 
             return getPostByIDResponse;
         } else {
